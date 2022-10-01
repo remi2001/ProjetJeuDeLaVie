@@ -13,78 +13,75 @@ namespace ProjetJeuDeLaVie
         private List<SousMenu> ListeSousMenu;
         private byte GroupeMenu;
         private string PhraseExplicatifMenu;
+        private byte Curseur;
 
         public Menu(List<SousMenu> listeSousMenu, byte groupeMenu, string phraseExplicatifMenu)
         {
             ListeSousMenu = listeSousMenu;
             GroupeMenu = groupeMenu;
             PhraseExplicatifMenu = phraseExplicatifMenu;
+            this.Curseur = 1;
         }
 
-        public void Naviguer(Menu MenuActuel)
+        public void Naviguer(Jeu JeuDeLaVie)
         {
-            int Curseur = 1;
+            
 
             ConsoleKeyInfo ToucheAppuye = Console.ReadKey();
 
-            if(ToucheAppuye.Key != ConsoleKey.Enter)
+            if (ToucheAppuye.Key != ConsoleKey.Enter)
             {
                 do
                 {
-                    
-                    if (Curseur == 0)
-                    {
-                        Curseur = 1;
-                    }
-                    else
-                    {
-                        if (Curseur == 4)
-                        {
-                            Curseur = 3;
-                        }
-                    }
-
-                    if (Curseur > 0 && Curseur < 4)
+                    if (this.Curseur >= 1 && this.Curseur <= 3)
                     {
                         Console.Clear();
                         switch (ToucheAppuye.Key)
                         {
                             case ConsoleKey.DownArrow:
-                                ListeSousMenu[Curseur-1].SetSiSelectionner = '>';
-                                Curseur++;
                                 
+                                this.ListeSousMenu[this.Curseur - 1].SetSiSelectionner = '>';
+                                this.Curseur++;
                                 break;
                             case ConsoleKey.UpArrow:
-                                
-                                Curseur--;
-                                ListeSousMenu[Curseur].SetSiSelectionner = '>';
+                                this.ListeSousMenu[this.Curseur - 1].SetSiSelectionner = ' ';
+                                this.Curseur--;
                                 break;
                         }
                     }
 
-                    MenuActuel.ToString();
+                    this.ToString();
                     ToucheAppuye = Console.ReadKey();
                 } while (ToucheAppuye.Key != ConsoleKey.Enter);
             }
-            
-            if(this.GroupeMenu == 1)
-            {
-                switch (Curseur)
-                {
-                    case 1:
-                        ListeSousMenu[0].Lancer();
-                        break;
-                    case 2:
-                        ListeSousMenu[1].Option();
-                        break;
-                    case 3:
-                        ListeSousMenu[2].Quitter();
-                        break;
-                }
-            }
-            
+
+            this.SelectionSousMenu(this.Curseur, this.GroupeMenu,JeuDeLaVie);
         }
-        
+
+        private void SelectionSousMenu(byte IdSousMenu, byte GroupeMenu, Jeu JeuDeLaVie)
+        {
+            string test = GroupeMenu + "." + IdSousMenu;
+
+            switch (test)
+            {
+                case "1.1":
+                    JeuDeLaVie.LancerJeu();
+                    break;
+                case "1.2":
+                    JeuDeLaVie.OptionJeu();
+                    break;
+                case "1.3":
+                    JeuDeLaVie.QuitterJeu();
+                    break;
+                case "2.1":
+                    break;
+                case "2.2":
+                    break;
+                case "2.3":
+                    break;
+            }
+        }
+
         public override string? ToString()
         {
             Console.WriteLine(this.PhraseExplicatifMenu);
