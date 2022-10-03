@@ -10,15 +10,16 @@ namespace ProjetJeuDeLaVie
     {
         public void LancementDuJeu()
         {
-            List<SousMenu> ListeSousMenuPrincipale = new List<SousMenu>();
+            SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
+            SousMenu FEN_Option = new SousMenu(1, "Option");
+            SousMenu FEN_Quitter = new SousMenu(2, "Quitter");
 
-            SousMenu FEN_Lancer = new SousMenu(1, "Lancer");
-            SousMenu FEN_Option = new SousMenu(2, "Option");
-            SousMenu FEN_Quitter = new SousMenu(3, "Quitter");
-
-            ListeSousMenuPrincipale.Add(FEN_Lancer);
-            ListeSousMenuPrincipale.Add(FEN_Option);
-            ListeSousMenuPrincipale.Add(FEN_Quitter);
+            List<SousMenu> ListeSousMenuPrincipale = new List<SousMenu>(3)
+            {
+                FEN_Lancer,
+                FEN_Option,
+                FEN_Quitter,
+            };
 
             Menu MenuPrincipale = new Menu(ListeSousMenuPrincipale, 1, "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour ____ appuyez sur ENTER");
 
@@ -47,9 +48,9 @@ namespace ProjetJeuDeLaVie
 
             List<SousMenu>? ListeSousMenuOption = new List<SousMenu>();
 
-            SousMenu? FEN_Option1 = new SousMenu(1, "Option 1");
-            SousMenu? FEN_Option2 = new SousMenu(2, "Option 2");
-            SousMenu? FEN_Option3 = new SousMenu(3, "Option 3");
+            SousMenu? FEN_Option1 = new SousMenu(0, "Option 1");
+            SousMenu? FEN_Option2 = new SousMenu(1, "Option 2");
+            SousMenu? FEN_Option3 = new SousMenu(2, "Option 3");
 
             ListeSousMenuOption.Add(FEN_Option1);
             ListeSousMenuOption.Add(FEN_Option2);
@@ -75,11 +76,6 @@ namespace ProjetJeuDeLaVie
         public void QuitterJeu()
         {
             Environment.Exit(1);
-        }
-
-        public void Deroulement()
-        {
-
         }
     }
 }

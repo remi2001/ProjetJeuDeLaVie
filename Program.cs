@@ -6,6 +6,10 @@ namespace ProjetJeuDeLaVie
     {
         static void Main(String[] args)
         {
+            Console.CursorVisible = false;
+            Console.Title = "Jeu de la vie";
+
+
             Jeu JeuDeLaVie = new Jeu();
             JeuDeLaVie.LancementDuJeu();
 

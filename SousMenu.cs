@@ -10,23 +10,43 @@ namespace ProjetJeuDeLaVie
     {
         private byte IdMenu;
         private string Phrase;
-        private char SiSelectionner = ' ';
+        private string SiSelectionner;
 
         public SousMenu(byte iD, string phrase)
         {
             //Faire en sorte que si un Id est pris, la fen ne peut pas se créé
             this.IdMenu = iD;
             this.Phrase = phrase;
+            if(iD == 0)
+            {
+                SiSelectionner = ">>";
+            }
+            else
+            {
+                SiSelectionner = " ";
+            }
         }
         
         public override string? ToString()
         {
-            return SiSelectionner + this.IdMenu + "-" + this.Phrase;
+
+            if(SiSelectionner == ">>")
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            return SiSelectionner.ToString() + " " + this.IdMenu + "-" + this.Phrase;
         }
 
-        public char SetSiSelectionner
+        public string SetSiSelectionner
         {
-            set { SiSelectionner = value; }
+            set => SiSelectionner = value;
         }
 
     }
