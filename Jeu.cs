@@ -77,5 +77,68 @@ namespace ProjetJeuDeLaVie
         {
             Environment.Exit(1);
         }
+
+        private int ComptCellAutour(bool[,] terrain, int i, int j)
+        {
+            int nbCellule = 0;
+            if (terrain[i - 1, j - 1] == true) nbCellule++;
+            if (terrain[i - 1, j] == true) nbCellule++;
+            if (terrain[i - 1, j + 1] == true) nbCellule++;
+            if (terrain[i, j + 1] == true) nbCellule++;
+            if (terrain[i + 1, j + 1] == true) nbCellule++;
+            if (terrain[i + 1, j] == true) nbCellule++;
+            if (terrain[i + 1, j - 1] == true) nbCellule++;
+            if (terrain[i, j - 1] == true) nbCellule++;
+            return nbCellule;
+        }
+
+        public Terrain DeroulementNormal(bool[,] terrain, int pourcentageApparition)
+        {
+            int nbcellule;
+            Terrain ProchaineGeneration = new Terrain(0);
+            for (int i = 0; i <= 100; i++)
+            {
+                for (int j = 0; j <= 100; j++)
+                {
+                    nbcellule = ComptCellAutour(terrain, i, j);
+                    //Condition pour l'apparition d'une cellule
+                    if (nbcellule == 3 && terrain[i, j] == false)
+                    {
+                        //Apparition d'une cellule à l'emplacement i,j dans "ProchaineGeneration" = Console.Write("X");
+                    }
+                    //Condition pour la mort d'une cellule
+                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 4 || nbcellule == 5 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain[i, j] == true))
+                    {
+                        //La cellule meurt à l'emplacement i,j dans "ProchaineGeneration" = Console.Write(" ");
+                    }
+                }
+            }
+            return ProchaineGeneration;
+        }
+
+        public Terrain DeroulementDayAndNight(bool[,] terrain, int pourcentageApparition)
+        {
+            int nbcellule;
+            Terrain Generation = new Terrain(pourcentageApparition);
+            Terrain ProchaineGeneration = new Terrain(0);
+            for (int i = 0; i <= 100; i++)
+            {
+                for (int j = 0; j <= 100; j++)
+                {
+                    nbcellule = ComptCellAutour(terrain, i, j);
+                    //Condition pour l'apparition d'une cellule
+                    if ((nbcellule == 3 || nbcellule == 4 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain[i, j] == false))
+                    {
+                        //Apparition d'une cellule à l'emplacement i,j dans "ProchaineGeneration = Console.Write("X");
+                    }
+                    //Condition pour la mort d'une cellule
+                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 2 || nbcellule == 4 || nbcellule == 5) && (terrain[i, j] == true))
+                    {
+                        //La cellule meurt à l'emplacement i,j dans "ProchaineGeneration" = Console.Write(" ");
+                    }
+                }
+            }
+            return ProchaineGeneration;
+        }
     }
 }
