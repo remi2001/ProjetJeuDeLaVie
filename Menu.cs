@@ -11,19 +11,52 @@ namespace ProjetJeuDeLaVie
 {
     internal class Menu
     {
+        /// <summary>
+        /// Variable qui contient tous les sous-menu attachés à ce menu
+        /// </summary>
         private List<SousMenu> ListeSousMenu;
+
+        /// <summary>
+        /// Variable qui permet de savoir la hiéarchie des menu ou de savoir dans qu'elle menu on se situe
+        /// </summary>
         private byte GroupeMenu;
+
+        /// <summary>
+        /// Variable qui stocke la phrase d'introduction du menu pour informé l'utilisateur par exemple
+        /// </summary>
         private string PhraseExplicatifMenu;
+
+        /// <summary>
+        /// Variable qui enregistre la position, par défaut, du curseur pour un menu
+        /// </summary>
         private byte Curseur;
 
+        /// <summary>
+        /// Constructeur d'un menu
+        /// </summary>
+        /// <param name="listeSousMenu">Liste des sous-menu liée au menu</param>
+        /// <param name="groupeMenu">Groupe du menu </param>
+        /// <param name="phraseExplicatifMenu">Phrase d'information voulant être affichée pour informer l'utilisateur</param>
         public Menu(List<SousMenu> listeSousMenu, byte groupeMenu, string phraseExplicatifMenu)
         {
-            ListeSousMenu = listeSousMenu;
-            GroupeMenu = groupeMenu;
-            PhraseExplicatifMenu = phraseExplicatifMenu;
-            this.Curseur = 0;
+            if(listeSousMenu != null)
+            {
+                ListeSousMenu = listeSousMenu;
+                GroupeMenu = groupeMenu;
+                PhraseExplicatifMenu = phraseExplicatifMenu;
+                Curseur = 0;
+            }
+            else
+            {
+                Console.WriteLine("Le menu est vide donc n'existe pas. Il ne peut se construire. Le programme va s'arrêter");
+                Environment.Exit(-1);
+            }
         }
 
+        /// <summary>
+        /// Permet de naviguer dans menu
+        /// </summary>
+        /// <param name="JeuDeLaVie">Le jeu</param>
         public void Naviguer(Jeu JeuDeLaVie)
         {
             bool Valide = false;
@@ -31,30 +64,15 @@ namespace ProjetJeuDeLaVie
             {
                 ConsoleKeyInfo ToucheAppuye = Console.ReadKey();
 
+                //Si l'utilisateur n'appuie pas sur ENTRE
                 if(ToucheAppuye.Key != ConsoleKey.Enter)
                 {
-                    switch (ToucheAppuye.Key)
-                    {
-                        case ConsoleKey.DownArrow:
-                            if(this.Curseur != this.ListeSousMenu.Count - 1)
-                            {
-                                this.Curseur++;
-                                this.ListeSousMenu[Curseur - 1].SetSiSelectionner = " ";
-                                this.ListeSousMenu[Curseur].SetSiSelectionner = ">>";
-                            }
-                            break;
-                        case ConsoleKey.UpArrow:
-                            if (this.Curseur != 0)
-                            {
-                                this.Curseur--;
-                                this.ListeSousMenu[Curseur].SetSiSelectionner = ">>";
-                                this.ListeSousMenu[Curseur + 1].SetSiSelectionner = " ";
-                            }
-                            break;
-                    }
+                    //Gère le curseur
+                    GestionCurseur(ToucheAppuye);
 
+                    //Néttoie la console pour refaire l'affichage du menu
                     Console.Clear();
-                    this.ToString();
+                    ToString();
                 }
                 else
                 {
@@ -63,46 +81,86 @@ namespace ProjetJeuDeLaVie
                 
             } while (Valide == false);
 
-
-            this.SelectionSousMenu(this.Curseur, this.GroupeMenu,JeuDeLaVie);
+            //Sélectionne l'action liée au sous-menu voulant être parcouru par l'utilisateur
+            SelectionSousMenu(this.Curseur, this.GroupeMenu,JeuDeLaVie);
         }
 
+        /// <summary>
+        /// Permet de gérer le curseur du menu, c'est à dire, sa position selon les touches
+        /// </summary>
+        /// <param name="ToucheAppuye"></param>
+        private void GestionCurseur(ConsoleKeyInfo ToucheAppuye)
+        {
+            switch (ToucheAppuye.Key)
+            {
+                //Si la flèche du bas est appuyé
+                case ConsoleKey.DownArrow:
+                    //Si le curseur n'arrive pas en bas du menu
+                    if (Curseur != ListeSousMenu.Count - 1)
+                    {
+                        Curseur++;
+
+                        //Attribution du curseur selon la navigation
+                        ListeSousMenu[Curseur - 1].SetSiSelectionner = " ";
+                        ListeSousMenu[Curseur].SetSiSelectionner = ">>";
+                    }
+                    break;
+                //Si la flèche du haut est appuyé
+                case ConsoleKey.UpArrow:
+                    //Si le curseur n'arrive pas en haut du menu
+                    if (Curseur != 0)
+                    {
+                        Curseur--;
+
+                        //Attribution du curseur selon la navigation
+                        ListeSousMenu[Curseur].SetSiSelectionner = ">>";
+                        ListeSousMenu[Curseur + 1].SetSiSelectionner = " ";
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Sélectionne l'action que va réaliser le programme selon le sous-menu sélectionné
+        /// </summary>
+        /// <param name="IdSousMenu">Identifiant du menu sélectionné</param>
+        /// <param name="GroupeMenu">Le groupe du menu dans le quel on est</param>
+        /// <param name="JeuDeLaVie">Le jeu</param>
         private void SelectionSousMenu(byte IdSousMenu, byte GroupeMenu, Jeu JeuDeLaVie)
         {
-            string test = GroupeMenu + "." + IdSousMenu;
+            //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
+            string IdentifacateurCompletDuSousMenu = GroupeMenu + "." + IdSousMenu;
 
-            switch (test)
+            switch (IdentifacateurCompletDuSousMenu)
             {
-                case "1.0":
-                    JeuDeLaVie.LancerJeu();
+                case "1.0": JeuDeLaVie.LancerJeu();
                     break;
-                case "1.1":
-                    JeuDeLaVie.OptionJeu();
+                case "1.1": JeuDeLaVie.OptionJeu();
                     break;
-                case "1.2":
-                    JeuDeLaVie.QuitterJeu();
+                case "1.2": JeuDeLaVie.QuitterJeu();
                     break;
-                case "2.0":
+                case "2.0": Naviguer(JeuDeLaVie);
                     break;
-                case "2.1":
+                case "2.1": Naviguer(JeuDeLaVie);
                     break;
-                case "2.2":
+                case "2.2": Naviguer(JeuDeLaVie);
                     break;
             }
         }
 
         public override string? ToString()
         {
+            Console.WriteLine(PhraseExplicatifMenu);
 
-            Console.WriteLine(this.PhraseExplicatifMenu);
             foreach(SousMenu sousmenu in ListeSousMenu)
             {
                 Console.WriteLine(sousmenu.ToString());
             }
 
-            //Problème affichage couleur console blanche COM A REVOIRE
+            //Règle le problème d'affichage de la console avec le fond blanc.
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+
             return null;
         }
     }
