@@ -78,21 +78,27 @@ namespace ProjetJeuDeLaVie
             Environment.Exit(1);
         }
 
-        private int ComptCellAutour(bool[,] terrain, int i, int j)
+        /// <summary>
+        /// Compte le nombre de cellule autour de celle rentré en paramètre
+        /// </summary>
+        private int ComptCellAutour(Terrain terrain, int i ,int j)
         {
             int nbCellule = 0;
-            if (terrain[i - 1, j - 1] == true) nbCellule++;
-            if (terrain[i - 1, j] == true) nbCellule++;
-            if (terrain[i - 1, j + 1] == true) nbCellule++;
-            if (terrain[i, j + 1] == true) nbCellule++;
-            if (terrain[i + 1, j + 1] == true) nbCellule++;
-            if (terrain[i + 1, j] == true) nbCellule++;
-            if (terrain[i + 1, j - 1] == true) nbCellule++;
-            if (terrain[i, j - 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i - 1,j - 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i    , j + 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i    , j - 1] == true) nbCellule++;
             return nbCellule;
         }
 
-        public Terrain DeroulementNormal(bool[,] terrain, int pourcentageApparition)
+        /// <summary>
+        /// Déroulement des règles du jeu standard
+        /// </summary>
+        public void DeroulementNormal(Terrain terrain)
         {
             int nbcellule;
             Terrain ProchaineGeneration = new Terrain(0);
@@ -101,44 +107,50 @@ namespace ProjetJeuDeLaVie
                 for (int j = 0; j <= 100; j++)
                 {
                     nbcellule = ComptCellAutour(terrain, i, j);
-                    //Condition pour l'apparition d'une cellule
-                    if (nbcellule == 3 && terrain[i, j] == false)
+                    //Condition pour la naissance d'une cellule
+                    if (nbcellule == 3 && terrain.UtilisationTerrain[i, j] == false)
                     {
-                        //Apparition d'une cellule à l'emplacement i,j dans "ProchaineGeneration" = Console.Write("X");
+                        //La valeur deviens true dans le tableau de la prochaine génération
+                        ProchaineGeneration.UtilisationTerrain[i, j] = true;
                     }
                     //Condition pour la mort d'une cellule
-                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 4 || nbcellule == 5 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain[i, j] == true))
+                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 4 || nbcellule == 5 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain.UtilisationTerrain[i, j] == true))
                     {
-                        //La cellule meurt à l'emplacement i,j dans "ProchaineGeneration" = Console.Write(" ");
+                        //La valeur deviens false dans le tableau de la prochaine génération
+                        ProchaineGeneration.UtilisationTerrain[i, j] = false;
                     }
                 }
             }
-            return ProchaineGeneration;
+            ProchaineGeneration.Affichage_du_terrain();
         }
 
-        public Terrain DeroulementDayAndNight(bool[,] terrain, int pourcentageApparition)
+        /// <summary>
+        /// Déroulement des règles du jeu en mode Day and Night
+        /// </summary>
+        public void DeroulementDayAndNight(Terrain terrain)
         {
             int nbcellule;
-            Terrain Generation = new Terrain(pourcentageApparition);
             Terrain ProchaineGeneration = new Terrain(0);
             for (int i = 0; i <= 100; i++)
             {
                 for (int j = 0; j <= 100; j++)
                 {
                     nbcellule = ComptCellAutour(terrain, i, j);
-                    //Condition pour l'apparition d'une cellule
-                    if ((nbcellule == 3 || nbcellule == 4 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain[i, j] == false))
+                    //Condition pour la naissance d'une cellule
+                    if ((nbcellule == 3 || nbcellule == 4 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain.UtilisationTerrain[i, j] == false))
                     {
-                        //Apparition d'une cellule à l'emplacement i,j dans "ProchaineGeneration = Console.Write("X");
+                        //La valeur deviens true dans le tableau de la prochaine génération
+                        ProchaineGeneration.UtilisationTerrain[i, j] = true;
                     }
                     //Condition pour la mort d'une cellule
-                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 2 || nbcellule == 4 || nbcellule == 5) && (terrain[i, j] == true))
+                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 2 || nbcellule == 4 || nbcellule == 5) && (terrain.UtilisationTerrain[i, j] == true))
                     {
-                        //La cellule meurt à l'emplacement i,j dans "ProchaineGeneration" = Console.Write(" ");
+                        //La valeur deviens false dans le tableau de la prochaine génération
+                        ProchaineGeneration.UtilisationTerrain[i, j] = true;
                     }
                 }
             }
-            return ProchaineGeneration;
+            ProchaineGeneration.Affichage_du_terrain();
         }
     }
 }

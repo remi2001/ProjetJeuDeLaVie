@@ -79,5 +79,11 @@ namespace ProjetJeuDeLaVie
                 Console.WriteLine("");
             }
         }
+
+        public bool[,] UtilisationTerrain
+        {
+            get { return terrain; }
+            set { terrain = value; }
+        }
     }
 }
