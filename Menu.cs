@@ -64,15 +64,37 @@ namespace ProjetJeuDeLaVie
             {
                 ConsoleKeyInfo ToucheAppuye = Console.ReadKey();
 
-                //Si l'utilisateur n'appuie pas sur ENTRE
+                //Si l'utilisateur n'appuie pas sur ENTRE pour validé sa sélection
                 if(ToucheAppuye.Key != ConsoleKey.Enter)
                 {
-                    //Gère le curseur
-                    GestionCurseur(ToucheAppuye);
+                    //Si l'utilisateur n,appuie pas sur la flèche de gauche pour faire retour
+                    if(ToucheAppuye.Key != ConsoleKey.LeftArrow)
+                    {
+                        //Gère le curseur
+                        GestionCurseur(ToucheAppuye);
 
-                    //Néttoie la console pour refaire l'affichage du menu
-                    Console.Clear();
-                    ToString();
+                        //Néttoie la console pour refaire l'affichage du menu
+                        Console.Clear();
+                        ToString();
+                    }
+                    else
+                    {
+                        //Si le menu actuel n'est pas le menu principale
+                        if(GroupeMenu != 1)
+                        {
+                            Console.Clear();
+
+                            //On affiche et permet de naviguer dans le menu n-1
+                            JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].ToString();
+                            JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].Naviguer(JeuDeLaVie);
+                        }
+                        else
+                        {
+                            //Sinon je refait la navigation afin d'éviter tout arrêt prématuré du programme
+                            Naviguer(JeuDeLaVie);
+                        }
+                    }
+                    
                 }
                 else
                 {
@@ -160,6 +182,8 @@ namespace ProjetJeuDeLaVie
             //Règle le problème d'affichage de la console avec le fond blanc.
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("Pour faire un retour en arrière appuyez sur la flèches de gauche");
 
             return null;
         }

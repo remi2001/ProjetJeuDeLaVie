@@ -8,7 +8,10 @@ namespace ProjetJeuDeLaVie
 {
     internal class Jeu
     {
-        public void LancementDuJeu()
+        private List<Menu> MenuPouvantEtreENTRER;
+        private Menu MenuPrincipale;
+
+        public Jeu()
         {
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
             SousMenu FEN_Option = new SousMenu(1, "Option");
@@ -21,11 +24,19 @@ namespace ProjetJeuDeLaVie
                 FEN_Quitter,
             };
 
-            Menu MenuPrincipale = new Menu(ListeSousMenuPrincipale, 1, "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour ____ appuyez sur ENTER");
+            MenuPrincipale = new Menu(ListeSousMenuPrincipale, 1,
+                "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour valider votre sélection appuyez sur ENTER");
 
+            MenuPouvantEtreENTRER = new(1)
+            {
+                MenuPrincipale
+            };
+        }
+
+        public void LancementDuJeu()
+        {
             MenuPrincipale.ToString();
             MenuPrincipale.Naviguer(this);
-            
         }
 
         /// <summary>
@@ -36,6 +47,13 @@ namespace ProjetJeuDeLaVie
             //Enlève tout affichage de la console
             Console.Clear();
             Console.WriteLine("LANCEMENT");
+            Thread.Sleep(1000);
+            Console.Clear();
+
+            
+            Terrain Terrain_du_Jeu = new Terrain(18);
+            DeroulementNormal(Terrain_du_Jeu);
+            //DeroulementDayAndNight(Terrain_du_Jeu);
         }
 
         /// <summary>
@@ -46,17 +64,19 @@ namespace ProjetJeuDeLaVie
             //On enlève l'affichage présent
             Console.Clear();
 
-            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>();
-
             SousMenu? FEN_Option1 = new SousMenu(0, "Option 1");
             SousMenu? FEN_Option2 = new SousMenu(1, "Option 2");
             SousMenu? FEN_Option3 = new SousMenu(2, "Option 3");
 
-            ListeSousMenuOption.Add(FEN_Option1);
-            ListeSousMenuOption.Add(FEN_Option2);
-            ListeSousMenuOption.Add(FEN_Option3);
+            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(3)
+            {
+                FEN_Option1,
+                FEN_Option2,
+                FEN_Option3
+            };
 
             Menu MenuOption = new Menu(ListeSousMenuOption, 2, "Voici les options Modifiables");
+            MenuPouvantEtreENTRER.Add(MenuOption);
 
             MenuOption.ToString();
             MenuOption.Naviguer(this);
@@ -68,6 +88,7 @@ namespace ProjetJeuDeLaVie
             FEN_Option2 = null;
             FEN_Option3 = null;
             ListeSousMenuOption = null;
+            MenuPouvantEtreENTRER.Remove(MenuOption);
         }
 
         /// <summary>
@@ -152,5 +173,13 @@ namespace ProjetJeuDeLaVie
             }
             ProchaineGeneration.Affichage_du_terrain();
         }
+
+        
+        public List<Menu> GetListeMenuPouvantEtreENTRER
+        {
+            get { return MenuPouvantEtreENTRER; }
+        }
+        
+
     }
 }
