@@ -79,22 +79,8 @@ namespace ProjetJeuDeLaVie
                     }
                     else
                     {
-                        //Si le menu actuel n'est pas le menu principale
-                        if(GroupeMenu != 1)
-                        {
-                            Console.Clear();
-
-                            //On affiche et permet de naviguer dans le menu n-1
-                            JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].ToString();
-                            JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].Naviguer(JeuDeLaVie);
-                        }
-                        else
-                        {
-                            //Sinon je refait la navigation afin d'éviter tout arrêt prématuré du programme
-                            Naviguer(JeuDeLaVie);
-                        }
+                        RetourAuMenuPrecedent(JeuDeLaVie);
                     }
-                    
                 }
                 else
                 {
@@ -105,6 +91,24 @@ namespace ProjetJeuDeLaVie
 
             //Sélectionne l'action liée au sous-menu voulant être parcouru par l'utilisateur
             SelectionSousMenu(this.Curseur, this.GroupeMenu,JeuDeLaVie);
+        }
+
+        private void RetourAuMenuPrecedent(Jeu JeuDeLaVie)
+        {
+            //Si le menu actuel n'est pas le menu principale
+            if (GroupeMenu != 1)
+            {
+                Console.Clear();
+
+                //On affiche et permet de naviguer dans le menu n-1
+                JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].ToString();
+                JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].Naviguer(JeuDeLaVie);
+            }
+            else
+            {
+                //Sinon je refait la navigation afin d'éviter tout arrêt prématuré du programme
+                Naviguer(JeuDeLaVie);
+            }
         }
 
         /// <summary>
