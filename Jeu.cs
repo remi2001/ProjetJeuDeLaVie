@@ -105,14 +105,14 @@ namespace ProjetJeuDeLaVie
         private int ComptCellAutour(Terrain terrain, int i ,int j)
         {
             int nbCellule = 0;
-            if (terrain.UtilisationTerrain[i - 1,j - 1] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i    , j + 1] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
-            if (terrain.UtilisationTerrain[i    , j - 1] == true) nbCellule++;
+            if (i > 0 && j > 0) { if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++; }
+            if (i > 0) { if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++; }
+            if (i>0 && j < 99) { if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++; }
+            if (j < 99) { if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++; }
+            if (i<99 && j<99) { if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++; }
+            if (i < 99) { if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++; }
+            if (i<99 && j>0) { if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++; }
+            if (j>0) { if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++; }
             return nbCellule;
         }
 
