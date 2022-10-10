@@ -85,5 +85,14 @@ namespace ProjetJeuDeLaVie
             get { return terrain; }
             set { terrain = value; }
         }
+
+        public int GetPourcentage {
+            get { return pourcentage; }
+        }
+
+        public int SetPourcentage
+        {
+            set { pourcentage = value; }
+        }
     }
 }

@@ -10,14 +10,21 @@ namespace ProjetJeuDeLaVie
     {
         private List<Menu> MenuPouvantEtreENTRER;
         private Menu MenuPrincipale;
+        private Menu MenuOption;
+        private Terrain Terrain_du_Jeu;
 
         public Jeu()
         {
+            //Création du terrain
+            Terrain_du_Jeu = new Terrain(18);
+            //----------------------------------------------------------------------------------------//
+
+            //Création du menu PRINCIPAL
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
             SousMenu FEN_Option = new SousMenu(1, "Option");
             SousMenu FEN_Quitter = new SousMenu(2, "Quitter");
 
-            List<SousMenu> ListeSousMenuPrincipale = new List<SousMenu>(3)
+            List<SousMenu>? ListeSousMenuPrincipale = new List<SousMenu>(3)
             {
                 FEN_Lancer,
                 FEN_Option,
@@ -27,10 +34,31 @@ namespace ProjetJeuDeLaVie
             MenuPrincipale = new Menu(ListeSousMenuPrincipale, 1,
                 "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour valider votre sélection appuyez sur ENTER");
 
+            ListeSousMenuPrincipale = null;
+
             MenuPouvantEtreENTRER = new(1)
             {
                 MenuPrincipale
             };
+            //----------------------------------------------------------------------------------------//
+
+            //Création du menu OPTION
+            SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : "+ Terrain_du_Jeu.GetPourcentage +" )" );
+            SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (pas encore implémenter)");
+            SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (pas encore implémenté)");
+
+            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(3)
+            {
+                FEN_OptionPourcentage,
+                FEN_OptionVitesseJeu,
+                FEN_OptionGenFinal
+            };
+
+            MenuOption = new Menu(ListeSousMenuOption, 2, "Voici les options Modifiables");
+            MenuPouvantEtreENTRER.Add(MenuOption);
+
+            ListeSousMenuOption = null;
+            //----------------------------------------------------------------------------------------//
         }
 
         public void LancementDuJeu()
@@ -50,8 +78,6 @@ namespace ProjetJeuDeLaVie
             Thread.Sleep(1000);
             Console.Clear();
 
-            
-            Terrain Terrain_du_Jeu = new Terrain(18);
             DeroulementNormal(Terrain_du_Jeu);
             //DeroulementDayAndNight(Terrain_du_Jeu);
         }
@@ -59,36 +85,13 @@ namespace ProjetJeuDeLaVie
         /// <summary>
         /// Initialise le menu des options et Affiche les options du jeu
         /// </summary>
-        public void OptionJeu()
+        public void AffichageOptionJeu()
         {
             //On enlève l'affichage présent
             Console.Clear();
 
-            SousMenu? FEN_Option1 = new SousMenu(0, "Option 1");
-            SousMenu? FEN_Option2 = new SousMenu(1, "Option 2");
-            SousMenu? FEN_Option3 = new SousMenu(2, "Option 3");
-
-            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(3)
-            {
-                FEN_Option1,
-                FEN_Option2,
-                FEN_Option3
-            };
-
-            Menu MenuOption = new Menu(ListeSousMenuOption, 2, "Voici les options Modifiables");
-            MenuPouvantEtreENTRER.Add(MenuOption);
-
             MenuOption.ToString();
             MenuOption.Naviguer(this);
-
-            //Suppression des sous menu afin d'éviter une duplication. Le garbage collector va automatique les supprimers et libérer de
-            //La mémoire. Il détecte les objets à supprimer en les mettant à nul et de notifier avec une "?" lors de leurs constructions 
-            //Comme plus haut
-            FEN_Option1 = null;
-            FEN_Option2 = null;
-            FEN_Option3 = null;
-            ListeSousMenuOption = null;
-            MenuPouvantEtreENTRER.Remove(MenuOption);
         }
 
         /// <summary>
@@ -179,7 +182,10 @@ namespace ProjetJeuDeLaVie
         {
             get { return MenuPouvantEtreENTRER; }
         }
-        
 
+        public Terrain GetTerrain
+        {
+            get { return Terrain_du_Jeu; }
+        }
     }
 }

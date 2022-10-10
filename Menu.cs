@@ -161,17 +161,26 @@ namespace ProjetJeuDeLaVie
             {
                 case "1.0": JeuDeLaVie.LancerJeu();
                     break;
-                case "1.1": JeuDeLaVie.OptionJeu();
+                case "1.1": JeuDeLaVie.AffichageOptionJeu();
                     break;
                 case "1.2": JeuDeLaVie.QuitterJeu();
                     break;
-                case "2.0": Naviguer(JeuDeLaVie);
+                case "2.0":
+                    ModificationOption(JeuDeLaVie);
                     break;
-                case "2.1": Naviguer(JeuDeLaVie);
+                case "2.1":
+                    ModificationOption(JeuDeLaVie);
                     break;
-                case "2.2": Naviguer(JeuDeLaVie);
+                case "2.2":
+                    ModificationOption(JeuDeLaVie);
                     break;
             }
+        }
+
+        private void ModificationOption(Jeu JeuDeLaVie)
+        {
+            int ENATTENDANT = 14;
+            JeuDeLaVie.GetTerrain.SetPourcentage = ENATTENDANT;
         }
 
         public override string? ToString()
