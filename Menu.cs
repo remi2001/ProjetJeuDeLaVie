@@ -39,7 +39,7 @@ namespace ProjetJeuDeLaVie
         /// <param name="phraseExplicatifMenu">Phrase d'information voulant être affichée pour informer l'utilisateur</param>
         public Menu(List<SousMenu> listeSousMenu, byte groupeMenu, string phraseExplicatifMenu)
         {
-            if(listeSousMenu != null)
+            if (listeSousMenu != null)
             {
                 ListeSousMenu = listeSousMenu;
                 GroupeMenu = groupeMenu;
@@ -65,10 +65,10 @@ namespace ProjetJeuDeLaVie
                 ConsoleKeyInfo ToucheAppuye = Console.ReadKey();
 
                 //Si l'utilisateur n'appuie pas sur ENTRE pour validé sa sélection
-                if(ToucheAppuye.Key != ConsoleKey.Enter)
+                if (ToucheAppuye.Key != ConsoleKey.Enter)
                 {
                     //Si l'utilisateur n,appuie pas sur la flèche de gauche pour faire retour
-                    if(ToucheAppuye.Key != ConsoleKey.LeftArrow)
+                    if (ToucheAppuye.Key != ConsoleKey.LeftArrow)
                     {
                         //Gère le curseur
                         GestionCurseur(ToucheAppuye);
@@ -86,11 +86,11 @@ namespace ProjetJeuDeLaVie
                 {
                     Valide = true;
                 }
-                
+
             } while (Valide == false);
 
             //Sélectionne l'action liée au sous-menu voulant être parcouru par l'utilisateur
-            SelectionSousMenu(this.Curseur, this.GroupeMenu,JeuDeLaVie);
+            SelectionSousMenu(this.Curseur, this.GroupeMenu, JeuDeLaVie);
         }
 
         private void RetourAuMenuPrecedent(Jeu JeuDeLaVie)
@@ -157,30 +157,84 @@ namespace ProjetJeuDeLaVie
             //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
             string IdentifacateurCompletDuSousMenu = GroupeMenu + "." + IdSousMenu;
 
-            switch (IdentifacateurCompletDuSousMenu)
+            if (GroupeMenu == 2)
             {
-                case "1.0": JeuDeLaVie.LancerJeu();
-                    break;
-                case "1.1": JeuDeLaVie.AffichageOptionJeu();
-                    break;
-                case "1.2": JeuDeLaVie.QuitterJeu();
-                    break;
-                case "2.0":
-                    ModificationOption(JeuDeLaVie);
-                    break;
-                case "2.1":
-                    ModificationOption(JeuDeLaVie);
-                    break;
-                case "2.2":
-                    ModificationOption(JeuDeLaVie);
-                    break;
+                ModificationOption(JeuDeLaVie, IdSousMenu);
             }
+            else{
+                switch (IdentifacateurCompletDuSousMenu)
+                {
+                    case "1.0":
+                        JeuDeLaVie.LancerJeu();
+                        break;
+                    case "1.1":
+                        JeuDeLaVie.AffichageOptionJeu();
+                        break;
+                    case "1.2":
+                        JeuDeLaVie.QuitterJeu();
+                        break;
+                }
+            }
+            
         }
 
-        private void ModificationOption(Jeu JeuDeLaVie)
+        private void ModificationOption(Jeu JeuDeLaVie, byte IdSousMenu)
         {
-            int ENATTENDANT = 14;
-            JeuDeLaVie.GetTerrain.SetPourcentage = ENATTENDANT;
+            Console.Clear();
+
+            switch (IdSousMenu)
+            {
+                case 0:
+                    
+                    Console.WriteLine("Vous modifier le pourcentage d'appartition des cellules");
+                    JeuDeLaVie.SetPourcentage = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le pourcentage de cellule vivante (actuel : " + JeuDeLaVie.GetPourcentage + " )";
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+                case 3:
+                    Console.WriteLine("Vous modifier le nombre de ligne du terrain");
+                    JeuDeLaVie.SetNombreLigne = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + JeuDeLaVie.GetNombreLigne + " )";
+                    break;
+                case 4:
+                    Console.WriteLine("Vous modifier le nombre de colonne du terrain");
+                    JeuDeLaVie.SetNombreColonne = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de colonne du terrain (actuel : " + JeuDeLaVie.GetNombreColonne + " )";
+                    break;
+            }
+
+            Console.WriteLine("VALEUR ENREGISTRE");
+            JeuDeLaVie.AffichageOptionJeu();
+        }
+
+        private int GestionValeurEntreUtilisateur()
+        {
+            int NombreEntre;
+
+            bool NombreEntreRespecteCondition;
+
+            do
+            {
+                Console.WriteLine("Entrez la nouvelle valeur : ");
+                if (!Int32.TryParse(Console.ReadLine(), out NombreEntre))
+                {
+                    Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer !");
+                    NombreEntreRespecteCondition = false;
+                }
+                else
+                {
+                    NombreEntreRespecteCondition = true;
+                }
+
+            } while (!NombreEntreRespecteCondition);
+
+            return NombreEntre;
         }
 
         public override string? ToString()

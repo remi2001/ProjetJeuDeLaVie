@@ -49,5 +49,10 @@ namespace ProjetJeuDeLaVie
             set => SiSelectionner = value;
         }
 
+        public string SetPhrase
+        {
+            set => this.Phrase = value;
+        }
+
     }
 }

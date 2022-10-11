@@ -13,11 +13,17 @@ namespace ProjetJeuDeLaVie
         private Menu MenuOption;
         private Terrain Terrain_du_Jeu;
 
+        //Paramètre du jeu
+        private int Pourcentage;
+        private int NombreLigne;
+        private int NombreColonne;
+
         public Jeu()
         {
-            //Création du terrain
-            Terrain_du_Jeu = new Terrain(18);
-            //----------------------------------------------------------------------------------------//
+            //Valeur paramètre par défaut
+            Pourcentage = 18;
+            NombreLigne = 100;
+            NombreColonne = 100;
 
             //Création du menu PRINCIPAL
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
@@ -43,15 +49,19 @@ namespace ProjetJeuDeLaVie
             //----------------------------------------------------------------------------------------//
 
             //Création du menu OPTION
-            SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : "+ Terrain_du_Jeu.GetPourcentage +" )" );
+            SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : "+ Pourcentage +" )" );
             SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (pas encore implémenter)");
             SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (pas encore implémenté)");
+            SousMenu FEN_OptionNombreLigne = new SousMenu(2, "Le nombre de ligne du terrain (actuel : " + NombreLigne + ")") ;
+            SousMenu FEN_OptionNombreColonne = new SousMenu(2, "Le nombre de colonne du terrain (actuel : " + NombreColonne + ")");
 
-            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(3)
+            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(5)
             {
                 FEN_OptionPourcentage,
                 FEN_OptionVitesseJeu,
-                FEN_OptionGenFinal
+                FEN_OptionGenFinal,
+                FEN_OptionNombreLigne,
+                FEN_OptionNombreColonne
             };
 
             MenuOption = new Menu(ListeSousMenuOption, 2, "Voici les options Modifiables");
@@ -77,6 +87,12 @@ namespace ProjetJeuDeLaVie
             Console.WriteLine("LANCEMENT");
             Thread.Sleep(1000);
             Console.Clear();
+
+            //Création du terrain
+            Terrain_du_Jeu = new Terrain(Pourcentage);
+            Terrain_du_Jeu.InitialisationTerrain();
+            Terrain_du_Jeu.GestionApparitionCellule();
+            //----------------------------------------------------------------------------------------//
 
             DeroulementNormal(Terrain_du_Jeu);
             //DeroulementDayAndNight(Terrain_du_Jeu);
@@ -183,9 +199,34 @@ namespace ProjetJeuDeLaVie
             get { return MenuPouvantEtreENTRER; }
         }
 
-        public Terrain GetTerrain
+        public int GetPourcentage
         {
-            get { return Terrain_du_Jeu; }
+            get { return Pourcentage; }
+        }
+
+        public int SetPourcentage
+        {
+            set => Pourcentage = value;
+        }
+
+        public int GetNombreColonne
+        {
+            get { return NombreColonne; }
+        }
+
+        public int SetNombreColonne
+        {
+            set => NombreColonne = value;
+        }
+
+        public int GetNombreLigne
+        {
+            get { return NombreLigne; }
+        }
+
+        public int SetNombreLigne
+        {
+            set => NombreLigne = value;
         }
     }
 }
