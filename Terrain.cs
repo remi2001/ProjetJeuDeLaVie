@@ -78,7 +78,11 @@ namespace ProjetJeuDeLaVie
 
         public void Affichage_du_terrain()
         {
+            //Temps d'attente entre 2 affichage de 10 seconde
+            //Thread.Sleep(10000);
+            //Ou taper sur entrer pour passer a la génération suivante
             Console.ReadLine();
+
             Console.Clear();
             for (int i = 0; i < terrain.GetLength(0); i++)
             {
