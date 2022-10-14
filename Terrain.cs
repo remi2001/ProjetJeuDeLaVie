@@ -78,6 +78,8 @@ namespace ProjetJeuDeLaVie
 
         public void Affichage_du_terrain()
         {
+            Console.ReadLine();
+            Console.Clear();
             for (int i = 0; i < terrain.GetLength(0); i++)
             {
                 for (int j = 0; j < terrain.GetLength(1); j++)

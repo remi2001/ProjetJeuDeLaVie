@@ -92,6 +92,7 @@ namespace ProjetJeuDeLaVie
             Terrain_du_Jeu = new Terrain(Pourcentage);
             Terrain_du_Jeu.InitialisationTerrain();
             Terrain_du_Jeu.GestionApparitionCellule();
+            Terrain_du_Jeu.Affichage_du_terrain();
             //----------------------------------------------------------------------------------------//
 
             DeroulementNormal(Terrain_du_Jeu);
@@ -124,14 +125,18 @@ namespace ProjetJeuDeLaVie
         private int ComptCellAutour(Terrain terrain, int i ,int j)
         {
             int nbCellule = 0;
-            if (i > 0 && j > 0) { if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++; }
+
             if (i > 0) { if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++; }
-            if (i>0 && j < 99) { if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++; }
-            if (j < 99) { if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++; }
-            if (i<99 && j<99) { if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++; }
+            if (j > 0) { if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++; }
+            if (i > 0 && j > 0) { if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++; }
+
+            if (i > 0 && j < 99) { if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++; }
+            if (i < 99 && j > 0) { if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++; }
+
             if (i < 99) { if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++; }
-            if (i<99 && j>0) { if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++; }
-            if (j>0) { if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++; }
+            if (j < 99) { if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++; }
+            if (i < 99 && j < 99) { if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++; }
+
             return nbCellule;
         }
 
@@ -140,28 +145,31 @@ namespace ProjetJeuDeLaVie
         /// </summary>
         public void DeroulementNormal(Terrain terrain)
         {
-            int nbcellule;
-            Terrain ProchaineGeneration = new Terrain(0);
-            for (int i = 0; i <= 100; i++)
+            for (int k = 0; k < 30; k++)
             {
-                for (int j = 0; j <= 100; j++)
+                int nbcellule;
+                Terrain ProchaineGeneration = new Terrain(0);
+                for (int i = 0; i < 100; i++)
                 {
-                    nbcellule = ComptCellAutour(terrain, i, j);
-                    //Condition pour la naissance d'une cellule
-                    if (nbcellule == 3 && terrain.UtilisationTerrain[i, j] == false)
+                    for (int j = 0; j < 100; j++)
                     {
-                        //La valeur deviens true dans le tableau de la prochaine génération
-                        ProchaineGeneration.UtilisationTerrain[i, j] = true;
-                    }
-                    //Condition pour la mort d'une cellule
-                    if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 4 || nbcellule == 5 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain.UtilisationTerrain[i, j] == true))
-                    {
-                        //La valeur deviens false dans le tableau de la prochaine génération
-                        ProchaineGeneration.UtilisationTerrain[i, j] = false;
+                        nbcellule = ComptCellAutour(terrain, i, j);
+                        //Condition pour la naissance d'une cellule
+                        if (nbcellule == 3 && terrain.UtilisationTerrain[i, j] == false)
+                        {
+                            //La valeur deviens true dans le tableau de la prochaine génération
+                            ProchaineGeneration.UtilisationTerrain[i, j] = true;
+                        }
+                        //Condition pour la mort d'une cellule
+                        if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 4 || nbcellule == 5 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (terrain.UtilisationTerrain[i, j] == true))
+                        {
+                            //La valeur deviens false dans le tableau de la prochaine génération
+                            ProchaineGeneration.UtilisationTerrain[i, j] = false;
+                        }
                     }
                 }
+                ProchaineGeneration.Affichage_du_terrain();
             }
-            ProchaineGeneration.Affichage_du_terrain();
         }
 
         /// <summary>
