@@ -17,6 +17,7 @@ namespace ProjetJeuDeLaVie
         private int Pourcentage;
         private int NombreLigne;
         private int NombreColonne;
+        private int NbGeneration;
 
         public Jeu()
         {
@@ -24,6 +25,7 @@ namespace ProjetJeuDeLaVie
             Pourcentage = 60;
             NombreLigne = 100;
             NombreColonne = 100;
+            NbGeneration = 30;
 
             //Création du menu PRINCIPAL
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
@@ -51,7 +53,7 @@ namespace ProjetJeuDeLaVie
             //Création du menu OPTION
             SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : "+ Pourcentage +" )" );
             SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (pas encore implémenter)");
-            SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (pas encore implémenté)");
+            SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (actuel : " + NbGeneration + " )");
             SousMenu FEN_OptionNombreLigne = new SousMenu(2, "Le nombre de ligne du terrain (actuel : " + NombreLigne + ")") ;
             SousMenu FEN_OptionNombreColonne = new SousMenu(2, "Le nombre de colonne du terrain (actuel : " + NombreColonne + ")");
 
@@ -207,9 +209,9 @@ namespace ProjetJeuDeLaVie
         /// </summary>
         public void DeroulementNormal(Terrain terrain)
         {
-            int nbcellule;
-            for (int k = 0; k < 10; k++)
+            for (int k = 0; k < 30; k++)
             {
+                int nbcellule;
                 Terrain ProchaineGeneration = new Terrain(0);
                 for (int i = 0; i < 100; i++)
                 {
@@ -305,6 +307,15 @@ namespace ProjetJeuDeLaVie
         public int SetNombreLigne
         {
             set => NombreLigne = value;
+        }
+        public int GetNombreGeneration
+        {
+            get { return NbGeneration; }
+        }
+
+        public int SetNombreGeneration
+        {
+            set => NbGeneration = value;
         }
     }
 }

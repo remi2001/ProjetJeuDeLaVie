@@ -195,7 +195,9 @@ namespace ProjetJeuDeLaVie
                     
                     break;
                 case 2:
-                    
+                    Console.WriteLine("Vous modifier le nombre maximum de génération");
+                    JeuDeLaVie.SetNombreGeneration = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + JeuDeLaVie.GetNombreGeneration + " )";
                     break;
                 case 3:
                     Console.WriteLine("Vous modifier le nombre de ligne du terrain");
