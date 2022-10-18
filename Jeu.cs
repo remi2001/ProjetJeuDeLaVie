@@ -209,7 +209,7 @@ namespace ProjetJeuDeLaVie
         /// </summary>
         public void DeroulementNormal(Terrain terrain)
         {
-            for (int k = 0; k < 30; k++)
+            for (int k = 0; k < NbGeneration; k++)
             {
                 int nbcellule;
                 Terrain ProchaineGeneration = new Terrain(0);
