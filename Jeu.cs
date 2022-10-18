@@ -209,10 +209,11 @@ namespace ProjetJeuDeLaVie
         /// </summary>
         public void DeroulementNormal(Terrain terrain)
         {
+            Terrain ProchaineGeneration = new Terrain(0);
             for (int k = 0; k < NbGeneration; k++)
             {
+                ProchaineGeneration.InitialisationTerrain();
                 int nbcellule;
-                Terrain ProchaineGeneration = new Terrain(0);
                 for (int i = 0; i < 100; i++)
                 {
                     for (int j = 0; j < 100; j++)
@@ -239,7 +240,10 @@ namespace ProjetJeuDeLaVie
                         }
                     }
                 }
-                terrain = ProchaineGeneration;
+                if (ProchaineGeneration.UtilisationTerrain != null)
+                {
+                    terrain.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
+                }
                 terrain.Affichage_du_terrain();
             }
         }
@@ -253,6 +257,7 @@ namespace ProjetJeuDeLaVie
             Terrain ProchaineGeneration = new Terrain(0);
             for (int i = 0; i < 100; i++)
             {
+                ProchaineGeneration.InitialisationTerrain();
                 for (int j = 0; j < 100; j++)
                 {
                     nbcellule = ComptCellAutour(terrain, i, j);
@@ -269,8 +274,12 @@ namespace ProjetJeuDeLaVie
                         ProchaineGeneration.UtilisationTerrain[i, j] = true;
                     }
                 }
+                if (ProchaineGeneration.UtilisationTerrain != null)
+                {
+                    terrain.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
+                }
+                terrain.Affichage_du_terrain();
             }
-            ProchaineGeneration.Affichage_du_terrain();
         }
 
         
