@@ -130,77 +130,97 @@ namespace ProjetJeuDeLaVie
 
             if (i == 0 || j == 0 || i == 99 || j == 99)
             {
-                if (i == 0 && j!=0 && j!=99)
-                {
-                    if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
-                }
-                if (i == 99 && j != 0 && j != 99)
-                {
-                    if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
-                }
-                if (j == 0 && i != 0 && i != 99)
-                {
-                    if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
-                }
-                if (j == 99 && i != 0 && i != 99 )
-                {
-                    if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-                }
-                if(i == 0 && j == 0)
-                {
-                    if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
-                }
-                if (i == 0 && j == 99)
-                {
-                    if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
-                }
-                if (i == 99 && j == 0)
-                {
-                    if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
-                }
-                if (i == 99 && j == 99)
-                {
-                    if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
-                    if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
-                }
+                if((i == 0 && (j != 0 && j != 99))|| (i == 99 && (j != 0 && j != 99)) || (j == 0 && (i != 0 && i != 99)) || (j == 99 && (i != 0 && i != 99)))
+                    nbCellule = ComptCellCote(terrain, i, j, nbCellule);
+                else
+                    nbCellule = ComptCellCoin(terrain, i, j, nbCellule);
             }
             else
+            {
+                nbCellule = ComptCellSansParticularite(terrain, i, j, nbCellule);
+            }            
+
+            return nbCellule;
+        }
+
+        private int ComptCellCote(Terrain terrain, int i, int j, int nbCellule)
+        {
+            if (i == 0 && j != 0 && j != 99)
+            {
+                if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
+            }
+            if (i == 99 && j != 0 && j != 99)
             {
                 if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
                 if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
                 if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
-
                 if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
-                if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
-
+                if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
+            }
+            if (j == 0 && i != 0 && i != 99)
+            {
+                if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
                 if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
                 if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
                 if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
-            }            
+            }
+            if (j == 99 && i != 0 && i != 99)
+            {
+                if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+            }
+            return nbCellule;
+        }
 
+        private int ComptCellCoin(Terrain terrain, int i, int j, int nbCellule)
+        {
+            if (i == 0 && j == 0)
+            {
+                if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
+            }
+            if (i == 0 && j == 99)
+            {
+                if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+            }
+            if (i == 99 && j == 0)
+            {
+                if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
+            }
+            if (i == 99 && j == 99)
+            {
+                if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
+                if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
+            }
+            return nbCellule;
+        }
+
+        private int ComptCellSansParticularite(Terrain terrain, int i, int j, int nbCellule)
+        {
+            if (terrain.UtilisationTerrain[i - 1, j] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i, j - 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i - 1, j - 1] == true) nbCellule++;
+
+            if (terrain.UtilisationTerrain[i - 1, j + 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i + 1, j - 1] == true) nbCellule++;
+
+            if (terrain.UtilisationTerrain[i + 1, j] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i, j + 1] == true) nbCellule++;
+            if (terrain.UtilisationTerrain[i + 1, j + 1] == true) nbCellule++;
             return nbCellule;
         }
 
