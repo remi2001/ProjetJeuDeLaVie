@@ -19,11 +19,11 @@ namespace ProjetJeuDeLaVie
         private int NombreColonne;
         private int nb_cellule;
 
-        public Terrain(int pourcentage_saisie)
+        public Terrain(int pourcentage_saisie, int nombreLigne, int nombreColonne)
         {
             this.pourcentage = pourcentage_saisie;
-            this.NombreLigne = 100;
-            this.NombreColonne = 100;
+            this.NombreLigne = nombreLigne;
+            this.NombreColonne = nombreColonne;
             this.nb_cellule = 0;
 
             terrain = new bool[NombreLigne, NombreColonne];

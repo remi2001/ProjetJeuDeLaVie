@@ -57,7 +57,7 @@ namespace ProjetJeuDeLaVie
         /// Permet de naviguer dans menu
         /// </summary>
         /// <param name="JeuDeLaVie">Le jeu</param>
-        public void Naviguer(Jeu JeuDeLaVie)
+        public byte Naviguer()
         {
             bool Valide = false;
             do
@@ -67,20 +67,23 @@ namespace ProjetJeuDeLaVie
                 //Si l'utilisateur n'appuie pas sur ENTRE pour validé sa sélection
                 if (ToucheAppuye.Key != ConsoleKey.Enter)
                 {
-                    //Si l'utilisateur n,appuie pas sur la flèche de gauche pour faire retour
-                    if (ToucheAppuye.Key != ConsoleKey.LeftArrow)
+                    //Si l'utilisateur n'appuie pas sur la flèche de gauche pour faire retour
+                    if (ToucheAppuye.Key == ConsoleKey.LeftArrow && GroupeMenu != 1)
                     {
-                        //Gère le curseur
-                        GestionCurseur(ToucheAppuye);
+                        //Simule la touche ENTER pour signaler que l'utilisateur à terminer le question en question
+                        Valide = true;
+                        //Code de retour
+                        Curseur = 255;
+                    }
+                    //Néttoie la console pour refaire l'affichage du menu
+                    Console.Clear();
 
-                        //Néttoie la console pour refaire l'affichage du menu
-                        Console.Clear();
-                        ToString();
-                    }
-                    else
-                    {
-                        RetourAuMenuPrecedent(JeuDeLaVie);
-                    }
+                    //Gère le curseur
+                    GestionCurseur(ToucheAppuye);
+
+                    //Affiche le menu dans lequel l'utilisateur est
+                    ToString();
+
                 }
                 else
                 {
@@ -89,26 +92,7 @@ namespace ProjetJeuDeLaVie
 
             } while (Valide == false);
 
-            //Sélectionne l'action liée au sous-menu voulant être parcouru par l'utilisateur
-            SelectionSousMenu(this.Curseur, this.GroupeMenu, JeuDeLaVie);
-        }
-
-        private void RetourAuMenuPrecedent(Jeu JeuDeLaVie)
-        {
-            //Si le menu actuel n'est pas le menu principale
-            if (GroupeMenu != 1)
-            {
-                Console.Clear();
-
-                //On affiche et permet de naviguer dans le menu n-1
-                JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].ToString();
-                JeuDeLaVie.GetListeMenuPouvantEtreENTRER[GroupeMenu - 2].Naviguer(JeuDeLaVie);
-            }
-            else
-            {
-                //Sinon je refait la navigation afin d'éviter tout arrêt prématuré du programme
-                Naviguer(JeuDeLaVie);
-            }
+            return Curseur;
         }
 
         /// <summary>
@@ -146,39 +130,7 @@ namespace ProjetJeuDeLaVie
             }
         }
 
-        /// <summary>
-        /// Sélectionne l'action que va réaliser le programme selon le sous-menu sélectionné
-        /// </summary>
-        /// <param name="IdSousMenu">Identifiant du menu sélectionné</param>
-        /// <param name="GroupeMenu">Le groupe du menu dans le quel on est</param>
-        /// <param name="JeuDeLaVie">Le jeu</param>
-        private void SelectionSousMenu(byte IdSousMenu, byte GroupeMenu, Jeu JeuDeLaVie)
-        {
-            //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
-            string IdentifacateurCompletDuSousMenu = GroupeMenu + "." + IdSousMenu;
-
-            if (GroupeMenu == 2)
-            {
-                ModificationOption(JeuDeLaVie, IdSousMenu);
-            }
-            else{
-                switch (IdentifacateurCompletDuSousMenu)
-                {
-                    case "1.0":
-                        JeuDeLaVie.LancerJeu();
-                        break;
-                    case "1.1":
-                        JeuDeLaVie.AffichageOptionJeu();
-                        break;
-                    case "1.2":
-                        JeuDeLaVie.QuitterJeu();
-                        break;
-                }
-            }
-            
-        }
-
-        private void ModificationOption(Jeu JeuDeLaVie, byte IdSousMenu)
+        public void ModificationOption(byte IdSousMenu)
         {
             Console.Clear();
 
@@ -187,8 +139,8 @@ namespace ProjetJeuDeLaVie
                 case 0:
                     
                     Console.WriteLine("Vous modifier le pourcentage d'appartition des cellules");
-                    JeuDeLaVie.SetPourcentage = GestionValeurEntreUtilisateur();
-                    ListeSousMenu[IdSousMenu].SetPhrase = "Le pourcentage de cellule vivante (actuel : " + JeuDeLaVie.GetPourcentage + " )";
+                    Program.SetPourcentage = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le pourcentage de cellule vivante (actuel : " + Program.GetPourcentage + " )";
                     
                     break;
                 case 1:
@@ -196,23 +148,23 @@ namespace ProjetJeuDeLaVie
                     break;
                 case 2:
                     Console.WriteLine("Vous modifier le nombre maximum de génération");
-                    JeuDeLaVie.SetNombreGeneration = GestionValeurEntreUtilisateur();
-                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + JeuDeLaVie.GetNombreGeneration + " )";
+                    Program.SetNbGeneration = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNbGeneration + " )";
                     break;
                 case 3:
                     Console.WriteLine("Vous modifier le nombre de ligne du terrain");
-                    JeuDeLaVie.SetNombreLigne = GestionValeurEntreUtilisateur();
-                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + JeuDeLaVie.GetNombreLigne + " )";
+                    Program.SetNombreLigne = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNombreLigne + " )";
                     break;
                 case 4:
                     Console.WriteLine("Vous modifier le nombre de colonne du terrain");
-                    JeuDeLaVie.SetNombreColonne = GestionValeurEntreUtilisateur();
-                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de colonne du terrain (actuel : " + JeuDeLaVie.GetNombreColonne + " )";
+                    Program.SetNombreColonne = GestionValeurEntreUtilisateur();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de colonne du terrain (actuel : " + Program.GetNombreColonne + " )";
                     break;
             }
 
             Console.WriteLine("VALEUR ENREGISTRE");
-            JeuDeLaVie.AffichageOptionJeu();
+            Thread.Sleep(1000);
         }
 
         private int GestionValeurEntreUtilisateur()
@@ -255,6 +207,16 @@ namespace ProjetJeuDeLaVie
             Console.WriteLine("Pour faire un retour en arrière appuyez sur la flèches de gauche");
 
             return null;
+        }
+
+        public byte GetGroupeMenu
+        {
+            get { return GroupeMenu; }
+        }
+
+        public byte SetCurseur
+        {
+            set { Curseur = value; }
         }
     }
 }
