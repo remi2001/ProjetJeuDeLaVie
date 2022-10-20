@@ -39,7 +39,7 @@ namespace ProjetJeuDeLaVie
                 //Tant que l'utilisateur n'a pas lancer le jeu
                 do
                 {
-                    SiLancer = AffichageMenuPrincipal();
+                    SiLancer = MenuPrincipal();
                 }while (!SiLancer);
 
                 Console.Clear();
@@ -109,7 +109,7 @@ namespace ProjetJeuDeLaVie
             ListeSousMenuOption = null;
             //----------------------------------------------------------------------------------------//
         }
-        public static bool AffichageMenuPrincipal()
+        public static bool MenuPrincipal()
         {
             byte PositionCurseur;
 
