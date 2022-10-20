@@ -32,11 +32,11 @@ namespace ProjetJeuDeLaVie
         public void InitialisationTerrain()
         {
             //initialisation du tableau
-            for (int i = 0; i < terrain.GetLength(0); i++)
+            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
             {
-                for (int j = 0; j < terrain.GetLength(1); j++)
+                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
                 {
-                    terrain[i, j] = false;
+                    terrain[AbscisseCellule, OrdonneCellule] = false;
                 }
             }
         }
@@ -84,11 +84,11 @@ namespace ProjetJeuDeLaVie
             Console.ReadLine();
 
             Console.Clear();
-            for (int i = 0; i < terrain.GetLength(0); i++)
+            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
             {
-                for (int j = 0; j < terrain.GetLength(1); j++)
+                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
                 {
-                    if (terrain[i, j] == true) Console.Write("X");
+                    if (terrain[AbscisseCellule, OrdonneCellule] == true) Console.Write("X");
                     else Console.Write(" ");
                 }
                 Console.WriteLine("");
