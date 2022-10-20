@@ -122,7 +122,7 @@ namespace ProjetJeuDeLaVie
             PositionCurseur = MenuPrincipale.Naviguer();
 
             //On sélectionne le sous menu choisi par l'utilisateur dans le menu principal
-            SelectionSousMenu(PositionCurseur, MenuPrincipale);
+            MenuPrincipale.SelectionSousMenu(PositionCurseur);
 
             return SiLancer;
         }
@@ -145,7 +145,7 @@ namespace ProjetJeuDeLaVie
             if (PositionCurseur != 255)
             {
                 //On sélectionne le sous menu choisi par l'utilisateur dans le menu option
-                SelectionSousMenu(PositionCurseur, MenuOption);
+                MenuOption.SelectionSousMenu(PositionCurseur);
             }
             else
             {
@@ -163,43 +163,7 @@ namespace ProjetJeuDeLaVie
             Environment.Exit(1);
         }
 
-        /// <summary>
-        /// Sélectionne l'action que va réaliser le programme selon le sous-menu sélectionné
-        /// </summary>
-        /// <param name="IdSousMenu">Identifiant du menu sélectionné</param>
-        /// <param name="GroupeMenu">Le groupe du menu dans le quel on est</param>
-        /// <param name="JeuDeLaVie">Le jeu</param>
-        public static void SelectionSousMenu(byte IdSousMenu, Menu MenuActuel)
-        {
-            //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
-            string IdentifacateurCompletDuSousMenu = MenuActuel.GetGroupeMenu + "." + IdSousMenu;
-
-            if (MenuActuel.GetGroupeMenu == 2)
-            {
-                //On donne l'accès à la modification des options
-                MenuActuel.ModificationOption(IdSousMenu);
-
-                //Une fois l'option modifier, on ré-affiche le menu des options si l'utilisateur veut en modifier d'autre
-                OptionJeu();
-            }
-            else
-            {
-                //On éxecute une action selon le menu choisi et le menu dans le quel l'utilisateur est
-                switch (IdentifacateurCompletDuSousMenu)
-                {
-                    case "1.0":
-                        //On redonne la main au main() afin d'éxecuter les actions qui lancent le jeu
-                        SiLancer = true;
-                        break;
-                    case "1.1":
-                        OptionJeu();
-                        break;
-                    case "1.2":
-                        QuitterJeu();
-                        break;
-                }
-            }
-        }
+        
 
         public static Terrain CreationTerrainJeu()
         {
@@ -260,6 +224,11 @@ namespace ProjetJeuDeLaVie
         public static int SetNbGeneration
         {
             set => NbGeneration = value;
+        }
+
+        public static bool SetSiLancer
+        {
+            set => SiLancer = value;
         }
     }
 }

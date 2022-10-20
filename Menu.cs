@@ -130,6 +130,43 @@ namespace ProjetJeuDeLaVie
             }
         }
 
+        /// <summary>
+        /// Sélectionne l'action que va réaliser le programme selon le sous-menu sélectionné
+        /// </summary>
+        /// <param name="IdSousMenu">Identifiant du menu sélectionné</param>
+        /// <param name="GroupeMenu">Le groupe du menu dans le quel on est</param>
+        /// <param name="JeuDeLaVie">Le jeu</param>
+        public void SelectionSousMenu(byte IdSousMenu)
+        {
+            //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
+            string IdentifacateurCompletDuSousMenu = GroupeMenu + "." + IdSousMenu;
+
+            if (GroupeMenu == 2)
+            {
+                //On donne l'accès à la modification des options
+                ModificationOption(IdSousMenu);
+
+                //Une fois l'option modifier, on ré-affiche le menu des options si l'utilisateur veut en modifier d'autre
+                Program.OptionJeu();
+            }
+            else
+            {
+                //On éxecute une action selon le menu choisi et le menu dans le quel l'utilisateur est
+                switch (IdentifacateurCompletDuSousMenu)
+                {
+                    case "1.0":
+                        //On redonne la main au main() afin d'éxecuter les actions qui lancent le jeu
+                        Program.SetSiLancer = true;
+                        break;
+                    case "1.1":
+                        Program.OptionJeu();
+                        break;
+                    case "1.2":
+                        Program.QuitterJeu();
+                        break;
+                }
+            }
+        }
         public void ModificationOption(byte IdSousMenu)
         {
             Console.Clear();

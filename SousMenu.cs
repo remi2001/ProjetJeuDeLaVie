@@ -53,6 +53,5 @@ namespace ProjetJeuDeLaVie
         {
             set => this.Phrase = value;
         }
-
     }
 }
