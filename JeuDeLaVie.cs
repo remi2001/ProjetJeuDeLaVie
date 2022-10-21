@@ -6,8 +6,8 @@ namespace ProjetJeuDeLaVie
     {
         #region Attribut
         private static List<Menu> MenuPouvantEtreENTRER;
-        private static Menu MenuPrincipale;
-        private static Menu MenuOption;
+        private static Menu FEN_MenuPrincipale;
+        private static Menu FEN_MenuOption;
         private static bool SiLancer;
         private static bool termine;
         private static Terrain? TerrainDuJeu;
@@ -69,16 +69,16 @@ namespace ProjetJeuDeLaVie
         /// </summary>
         public static void CreationMenu()
         {
-            MenuPrincipale = new Menu(CreationSousMenuPrincipal(), 1,
+            FEN_MenuPrincipale = new Menu(CreationSousMenuPrincipal(), 1,
                 "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour valider votre sélection appuyez sur ENTER");
 
             MenuPouvantEtreENTRER = new(1)
             {
-                MenuPrincipale
+                FEN_MenuPrincipale
             };
 
-            MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options Modifiables");
-            MenuPouvantEtreENTRER.Add(MenuOption);
+            FEN_MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options Modifiables");
+            MenuPouvantEtreENTRER.Add(FEN_MenuOption);
 
         }
         
@@ -135,13 +135,13 @@ namespace ProjetJeuDeLaVie
             //On signale au programme que l'on ne veut pas lancer le jeu
             SiLancer = false;
 
-            MenuPrincipale.ToString();
+            FEN_MenuPrincipale.ToString();
 
             //On permet la naviguation du menu principale à l'utilisateur
-            PositionCurseur = MenuPrincipale.Naviguer();
+            PositionCurseur = FEN_MenuPrincipale.Naviguer();
 
             //On sélectionne le sous menu choisi par l'utilisateur dans le menu principal
-            MenuPrincipale.SelectionSousMenu(PositionCurseur);
+            FEN_MenuPrincipale.SelectionSousMenu(PositionCurseur);
 
             return SiLancer;
         }
@@ -155,21 +155,21 @@ namespace ProjetJeuDeLaVie
 
             Console.Clear();
 
-            MenuOption.ToString();
+            FEN_MenuOption.ToString();
 
             //On donne la possiblité de naviguer dans le menu des options
-            PositionCurseur = MenuOption.Naviguer();
+            PositionCurseur = FEN_MenuOption.Naviguer();
 
             //Si le curseur n'est pas égal au code du retour en arrière
             if (PositionCurseur != 255)
             {
                 //On sélectionne le sous menu choisi par l'utilisateur dans le menu option
-                MenuOption.SelectionSousMenu(PositionCurseur);
+                FEN_MenuOption.SelectionSousMenu(PositionCurseur);
             }
             else
             {
                 //On remet le curseur à la position des options, c'est à dire, 1
-                MenuPrincipale.SetCurseur = 1;
+                FEN_MenuPrincipale.SetCurseur = 1;
             }
             Console.Clear();
         }
