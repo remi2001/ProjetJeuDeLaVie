@@ -171,6 +171,7 @@ namespace ProjetJeuDeLaVie
             Terrain Terrain_du_Jeu = new Terrain(Pourcentage, NombreColonne, NombreLigne);
             Terrain_du_Jeu.InitialisationTerrain();
             Terrain_du_Jeu.GestionApparitionCellule();
+            Terrain_du_Jeu.ModifTerrainParUtilisateur();
             //----------------------------------------------------------------------------------------//
 
             return Terrain_du_Jeu;
@@ -182,12 +183,12 @@ namespace ProjetJeuDeLaVie
 
             if(ModeDeJeu == 1)
             {
-                JeuDeLaVie.DeroulementNormal();
+                JeuDeLaVie.DeroulementJeuNormal();
             }
 
             if (ModeDeJeu == 2)
             {
-                JeuDeLaVie.DeroulementDayAndNight();
+                JeuDeLaVie.DeroulementJeuDayAndNight();
             }
 
             termine = true;

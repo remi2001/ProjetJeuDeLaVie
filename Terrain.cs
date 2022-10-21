@@ -76,12 +76,10 @@ namespace ProjetJeuDeLaVie
             }
         }
 
-        public void Affichage_du_terrain()
+        public void AffichageTerrain()
         {
-            //Temps d'attente entre 2 affichage de 10 seconde
-            //Thread.Sleep(10000);
-            //Ou taper sur entrer pour passer a la génération suivante
-            Console.ReadLine();
+            //Temps d'attente entre 2 affichage de 1 seconde qui equivaut donc a la vitesse du jeu
+            Thread.Sleep(1000);
 
             Console.Clear();
             for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
@@ -93,6 +91,11 @@ namespace ProjetJeuDeLaVie
                 }
                 Console.WriteLine("");
             }
+        }
+
+        public void ModifTerrainParUtilisateur()
+        {
+            
         }
 
         public bool[,] UtilisationTerrain
