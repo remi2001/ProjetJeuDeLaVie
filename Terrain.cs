@@ -32,11 +32,11 @@ namespace ProjetJeuDeLaVie
         public void InitialisationTerrain()
         {
             //initialisation du tableau
-            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
+            for (int LigneCellule = 0; LigneCellule < terrain.GetLength(0); LigneCellule++)
             {
-                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
+                for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
                 {
-                    terrain[AbscisseCellule, OrdonneCellule] = false;
+                    terrain[LigneCellule, ColonneCellule] = false;
                 }
             }
         }
@@ -46,30 +46,11 @@ namespace ProjetJeuDeLaVie
             //Gestion d'apparition des cellules selon le pourcentage et de facon aléatoire
             while (nb_cellule < (pourcentage * 100))
             {
-                NombreLigne = aleatoire.Next(99);
-                NombreColonne = aleatoire.Next(99);
+                NombreLigne = aleatoire.Next(100);
+                NombreColonne = aleatoire.Next(100);
 
                 if (terrain[NombreLigne, NombreColonne] == false)
                 {
-                    terrain[NombreLigne, NombreColonne] = true;
-                    nb_cellule++;
-                }
-                else
-                {
-                    while (terrain[NombreLigne, NombreColonne] == true)
-                    {
-                        NombreLigne++;
-                        if (NombreLigne == terrain.GetLength(0))
-                        {
-                            NombreLigne = 0;
-                            NombreColonne++;
-                            if (NombreColonne == terrain.GetLength(1))
-                            {
-                                NombreColonne = 0;
-                                NombreLigne = 0;
-                            }
-                        }
-                    }
                     terrain[NombreLigne, NombreColonne] = true;
                     nb_cellule++;
                 }
@@ -82,11 +63,11 @@ namespace ProjetJeuDeLaVie
             Thread.Sleep(1000);
 
             Console.Clear();
-            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
+            for (int LigneCellule = 0; LigneCellule < terrain.GetLength(0); LigneCellule++)
             {
-                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
+                for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
                 {
-                    if (terrain[AbscisseCellule, OrdonneCellule] == true) Console.Write("X");
+                    if (terrain[LigneCellule, ColonneCellule] == true) Console.Write("X");
                     else Console.Write(" ");
                 }
                 Console.WriteLine();
@@ -95,38 +76,39 @@ namespace ProjetJeuDeLaVie
 
         public void ModifTerrainParUtilisateur()
         {
-            int Abscisse=0;
-            bool OrdonneeEnHaut=false;
-            int Ordonne=0;
+            int Ligne = 0;
+            Char Reponse;
+            bool MauvaiseSaisie=true;
 
+            //Nettoyage de la console
             Console.Clear();
 
-            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
+            //Affichage du terrain actuel
+            for (int LigneCellule = 0; LigneCellule < terrain.GetLength(0); LigneCellule++)
             {
-                Console.Write(Abscisse);
-                Abscisse++;
-                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
-                {
-                    /*while (OrdonneCellule == 0 && OrdonneeEnHaut == false)
-                    {
-                        if (OrdonneCellule == terrain.GetLength(1) - 1)
-                        {
-                            Ordonne++;
-                            Console.WriteLine(Ordonne);
-                            OrdonneeEnHaut = true;
-                        }
-                        else
-                        {
-                            Ordonne++;
-                            Console.Write(Ordonne);
-                        }
-                    }*/
-                    if (terrain[AbscisseCellule, OrdonneCellule] == true) Console.Write("X");
-                    else Console.Write(" ");
+                Console.Write(Ligne+"\t|");
+                Ligne++;
+                for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
+                {                    
+                    if (terrain[LigneCellule, ColonneCellule] == true) Console.Write("X|");
+                    else Console.Write(" |");
                 }
                 Console.WriteLine();
             }
-            Console.ReadLine();
+
+            //Saisie su choix de la modification ou non du terrain
+            Console.WriteLine("Voulez-vous modifier le tableau ci-dessus avant le début du jeu ? (O/N)");
+            do
+            {
+                if (!Char.TryParse(Console.ReadLine(), out Reponse))
+                {
+                    Console.WriteLine("Veuillez saisir uniquement O si vous souhaité réalisé une modification sinon uniquement N");
+                }
+                else
+                {
+                    MauvaiseSaisie=false;
+                }
+            } while (MauvaiseSaisie==true);
         }
 
         public bool[,] UtilisationTerrain
