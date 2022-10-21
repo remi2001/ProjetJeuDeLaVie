@@ -76,12 +76,10 @@ namespace ProjetJeuDeLaVie
             }
         }
 
-        public void Affichage_du_terrain()
+        public void AffichageTerrain()
         {
-            //Temps d'attente entre 2 affichage de 10 seconde
-            //Thread.Sleep(10000);
-            //Ou taper sur entrer pour passer a la génération suivante
-            Console.ReadLine();
+            //Temps d'attente entre 2 affichage de 1 seconde qui equivaut donc a la vitesse du jeu
+            Thread.Sleep(1000);
 
             Console.Clear();
             for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
@@ -91,8 +89,44 @@ namespace ProjetJeuDeLaVie
                     if (terrain[AbscisseCellule, OrdonneCellule] == true) Console.Write("X");
                     else Console.Write(" ");
                 }
-                Console.WriteLine("");
+                Console.WriteLine();
             }
+        }
+
+        public void ModifTerrainParUtilisateur()
+        {
+            int Abscisse=0;
+            bool OrdonneeEnHaut=false;
+            int Ordonne=0;
+
+            Console.Clear();
+
+            for (int AbscisseCellule = 0; AbscisseCellule < terrain.GetLength(0); AbscisseCellule++)
+            {
+                Console.Write(Abscisse);
+                Abscisse++;
+                for (int OrdonneCellule = 0; OrdonneCellule < terrain.GetLength(1); OrdonneCellule++)
+                {
+                    /*while (OrdonneCellule == 0 && OrdonneeEnHaut == false)
+                    {
+                        if (OrdonneCellule == terrain.GetLength(1) - 1)
+                        {
+                            Ordonne++;
+                            Console.WriteLine(Ordonne);
+                            OrdonneeEnHaut = true;
+                        }
+                        else
+                        {
+                            Ordonne++;
+                            Console.Write(Ordonne);
+                        }
+                    }*/
+                    if (terrain[AbscisseCellule, OrdonneCellule] == true) Console.Write("X");
+                    else Console.Write(" ");
+                }
+                Console.WriteLine();
+            }
+            Console.ReadLine();
         }
 
         public bool[,] UtilisationTerrain
