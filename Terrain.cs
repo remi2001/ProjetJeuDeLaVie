@@ -109,6 +109,11 @@ namespace ProjetJeuDeLaVie
                     MauvaiseSaisie=false;
                 }
             } while (MauvaiseSaisie==true);
+
+            if (Reponse == 'O')
+            {
+                Console.WriteLine("Veuillez saisir les coordonées de la cellule que vous souhaité modifié");
+            }
         }
 
         public bool[,] UtilisationTerrain
