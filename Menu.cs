@@ -82,7 +82,7 @@ namespace ProjetJeuDeLaVie
                     GestionCurseur(ToucheAppuye);
 
                     //Affiche le menu dans lequel l'utilisateur est
-                    //ToString();
+                    ToString();
 
                 }
                 else

@@ -4,6 +4,7 @@ namespace ProjetJeuDeLaVie
 {
     class Program
     {
+        #region Attribut
         private static List<Menu> MenuPouvantEtreENTRER;
         private static Menu MenuPrincipale;
         private static Menu MenuOption;
@@ -12,10 +13,11 @@ namespace ProjetJeuDeLaVie
         private static Terrain? TerrainDuJeu;
 
         //Valeur paramètre par défaut
-        static int Pourcentage;
-        static int NombreLigne;
-        static int NombreColonne;
-        static int NbGeneration;
+        private static int Pourcentage;
+        private static int NombreLigne;
+        private static int NombreColonne;
+        private static int NbGeneration;
+        #endregion
 
         static void Main(String[] args)
         {
@@ -60,40 +62,57 @@ namespace ProjetJeuDeLaVie
            
         }
 
+        #region Fonction
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static void CreationMenu()
         {
-            //Création du menu PRINCIPAL
+            MenuPrincipale = new Menu(CreationSousMenuPrincipal(), 1,
+                "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour valider votre sélection appuyez sur ENTER");
+
+            MenuPouvantEtreENTRER = new(1)
+            {
+                MenuPrincipale
+            };
+
+            MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options Modifiables");
+            MenuPouvantEtreENTRER.Add(MenuOption);
+
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public static List<SousMenu> CreationSousMenuPrincipal()
+        {
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
             SousMenu FEN_Option = new SousMenu(1, "Option");
             SousMenu FEN_Quitter = new SousMenu(2, "Quitter");
 
-            List<SousMenu>? ListeSousMenuPrincipale = new List<SousMenu>(3)
+            List<SousMenu> ListeSousMenuPrincipale = new List<SousMenu>(3)
             {
                 FEN_Lancer,
                 FEN_Option,
                 FEN_Quitter,
             };
 
-            MenuPrincipale = new Menu(ListeSousMenuPrincipale, 1,
-                "Voici le menu. Pour naviguer, appuyez sur les flèches haut et bas. Pour valider votre sélection appuyez sur ENTER");
+            return ListeSousMenuPrincipale;
+        }
 
-            //Supprime la liste car elle n'est plus utilisé dans la suite du programme
-            ListeSousMenuPrincipale = null;
-
-            MenuPouvantEtreENTRER = new(1)
-            {
-                MenuPrincipale
-            };
-            //----------------------------------------------------------------------------------------//
-
-            //Création du menu OPTION
+        /// <summary>
+        /// 
+        /// </summary>
+        public static List<SousMenu> CreationSousMenuOption()
+        {
             SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : " + Pourcentage + " )");
             SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (pas encore implémenter)");
             SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (actuel : " + NbGeneration + " )");
             SousMenu FEN_OptionNombreLigne = new SousMenu(3, "Le nombre de ligne du terrain (actuel : " + NombreLigne + ")");
             SousMenu FEN_OptionNombreColonne = new SousMenu(4, "Le nombre de colonne du terrain (actuel : " + NombreColonne + ")");
 
-            List<SousMenu>? ListeSousMenuOption = new List<SousMenu>(5)
+            List<SousMenu> ListeSousMenuOption = new List<SousMenu>(5)
             {
                 FEN_OptionPourcentage,
                 FEN_OptionVitesseJeu,
@@ -102,13 +121,13 @@ namespace ProjetJeuDeLaVie
                 FEN_OptionNombreColonne
             };
 
-            MenuOption = new Menu(ListeSousMenuOption, 2, "Voici les options Modifiables");
-            MenuPouvantEtreENTRER.Add(MenuOption);
-
-            //Supprime la liste car elle n'est plus utilisé dans la suite du programme
-            ListeSousMenuOption = null;
-            //----------------------------------------------------------------------------------------//
+            return ListeSousMenuOption;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static bool MenuPrincipal()
         {
             byte PositionCurseur;
@@ -163,8 +182,10 @@ namespace ProjetJeuDeLaVie
             Environment.Exit(1);
         }
 
-        
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Terrain CreationTerrainJeu()
         {
             //Création du terrain
@@ -176,6 +197,10 @@ namespace ProjetJeuDeLaVie
             return Terrain_du_Jeu;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="JeuDeLaVie"></param>
         public static void SelectionJeu(DeroulementJeu JeuDeLaVie)
         {
             byte ModeDeJeu = 1;
@@ -192,7 +217,9 @@ namespace ProjetJeuDeLaVie
 
             termine = true;
         }
+        #endregion
 
+        #region Accesseur 
         public static int GetPourcentage
         {
             get { return Pourcentage; }
@@ -230,5 +257,6 @@ namespace ProjetJeuDeLaVie
         {
             set => SiLancer = value;
         }
+        #endregion
     }
 }
