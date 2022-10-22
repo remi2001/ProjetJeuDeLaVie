@@ -151,14 +151,15 @@ namespace ProjetJeuDeLaVie
                         }
                     } while (MauvaiseSaisieColonne == true);
 
-                    ColonneCelluleChoisi--;
-                    LigneCelluleChoisi--;
-
-
                     //Affichage de la ligne avec la potentiale modif symboliser par ? + indication de son etat
                     Console.Clear();
                     Console.WriteLine("Vous avez séléctionné la ligne {0} et la colonne {1} corespondante a la cellule avec ? ci-dessous", LigneCelluleChoisi, ColonneCelluleChoisi);
+
+                    ColonneCelluleChoisi--;
+                    LigneCelluleChoisi--;
+
                     Console.Write("|");
+
                     for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
                     {
                         if (ColonneCellule == ColonneCelluleChoisi) Console.Write("?|");

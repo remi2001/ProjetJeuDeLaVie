@@ -24,8 +24,8 @@ namespace ProjetJeuDeLaVie
         {
             //Par défaut
             Pourcentage = 60;
-            NombreLigne = 10;
-            NombreColonne = 10;
+            NombreLigne = 100;
+            NombreColonne = 100;
             NbGeneration = 30;
             termine = false;
             VitesseJeu = 1;
