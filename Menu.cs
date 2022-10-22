@@ -11,6 +11,7 @@ namespace ProjetJeuDeLaVie
 {
     internal class Menu
     {
+        #region Attribut
         /// <summary>
         /// Variable qui contient tous les sous-menu attachés à ce menu
         /// </summary>
@@ -30,7 +31,9 @@ namespace ProjetJeuDeLaVie
         /// Variable qui enregistre la position, par défaut, du curseur pour un menu
         /// </summary>
         private byte Curseur;
+        #endregion
 
+        #region Constructeur
         /// <summary>
         /// Constructeur d'un menu
         /// </summary>
@@ -52,16 +55,22 @@ namespace ProjetJeuDeLaVie
                 Environment.Exit(-1);
             }
         }
+        #endregion
+
+        #region Méthode
 
         /// <summary>
         /// Permet de naviguer dans menu
         /// </summary>
-        /// <param name="JeuDeLaVie">Le jeu</param>
+        /// <returns>La position du curseur</returns>
         public byte Naviguer()
         {
+            //Variable enregistrant si l'utilisateur à valider sa sélection
             bool Valide = false;
+
             do
             {
+                //Lecture de la touche
                 ConsoleKeyInfo ToucheAppuye = Console.ReadKey();
 
                 //Si l'utilisateur n'appuie pas sur ENTRE pour validé sa sélection
@@ -70,7 +79,7 @@ namespace ProjetJeuDeLaVie
                     //Si l'utilisateur n'appuie pas sur la flèche de gauche pour faire retour
                     if (ToucheAppuye.Key == ConsoleKey.LeftArrow && GroupeMenu != 1)
                     {
-                        //Simule la touche ENTER pour signaler que l'utilisateur à terminer le question en question
+                        //Simule la touche ENTER pour signaler que l'utilisateur à terminer sa sélection
                         Valide = true;
                         //Code de retour
                         Curseur = 255;
@@ -98,7 +107,7 @@ namespace ProjetJeuDeLaVie
         /// <summary>
         /// Permet de gérer le curseur du menu, c'est à dire, sa position selon les touches
         /// </summary>
-        /// <param name="ToucheAppuye"></param>
+        /// <param name="ToucheAppuye">Le type de touche appuyé</param>
         private void GestionCurseur(ConsoleKeyInfo ToucheAppuye)
         {
             switch (ToucheAppuye.Key)
@@ -134,13 +143,12 @@ namespace ProjetJeuDeLaVie
         /// Sélectionne l'action que va réaliser le programme selon le sous-menu sélectionné
         /// </summary>
         /// <param name="IdSousMenu">Identifiant du menu sélectionné</param>
-        /// <param name="GroupeMenu">Le groupe du menu dans le quel on est</param>
-        /// <param name="JeuDeLaVie">Le jeu</param>
         public void SelectionSousMenu(byte IdSousMenu)
         {
             //Formatage de l'dentifacateur complet du sous menu pour ressembler à x.x
             string IdentifacateurCompletDuSousMenu = GroupeMenu + "." + IdSousMenu;
 
+            //Si l'utilisateur est dans les options
             if (GroupeMenu == 2)
             {
                 //On donne l'accès à la modification des options
@@ -155,7 +163,6 @@ namespace ProjetJeuDeLaVie
                 switch (IdentifacateurCompletDuSousMenu)
                 {
                     case "1.0":
-                        //On redonne la main au main() afin d'éxecuter les actions qui lancent le jeu
                         Program.MenuLancer();
                         break;
                     case "1.1":
@@ -169,44 +176,54 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Modifie la valeur de l'option sélectionnée
         /// </summary>
-        /// <param name="IdSousMenu"></param>
+        /// <param name="IdSousMenu">L'identifiant du sous-menu sélectionner</param>
         public void ModificationOption(byte IdSousMenu)
         {
             Console.Clear();
 
+            //On éxecute différente action selon l'identifiant du sous-menu
             switch (IdSousMenu)
             {
                 case 0:
-                    
                     Console.WriteLine("Vous modifier le pourcentage d'appartition des cellules");
+                    //Modifie la valeur de l'option en vérifiant la saisie de l'utilisateur
                     Program.SetPourcentage = GestionValeurEntreUtilisateur();
+                    //Modifie la phrase du sous-menu pour actualiser la valeur de l'option affichée
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le pourcentage de cellule vivante (actuel : " + Program.GetPourcentage + " )";
                     break;
 
                 case 1:
                     Console.WriteLine("Vous modifier la vitesse de jeu. Veuilliez entrer un nombre entre 0,1 et 10 ! " +
                         "Il correspond à la vitesse en seconde.");
+                    //Modifie la valeur de l'option en vérifiant la saisie de l'utilisateur
                     Program.SetVitesseJeu = GestionValeurEntreUtilisateurVitesse();
+                    //Modifie la phrase du sous-menu pour actualiser la valeur de l'option affichée
                     ListeSousMenu[IdSousMenu].SetPhrase = "La vitesse de jeu (actuel : " + Program.GetVitesseJeu + " )";
                     break;
 
                 case 2:
                     Console.WriteLine("Vous modifier le nombre maximum de génération");
+                    //Modifie la valeur de l'option en vérifiant la saisie de l'utilisateur
                     Program.SetNbGeneration = GestionValeurEntreUtilisateur();
+                    //Modifie la phrase du sous-menu pour actualiser la valeur de l'option affichée
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNbGeneration + " )";
                     break;
 
                 case 3:
                     Console.WriteLine("Vous modifier le nombre de ligne du terrain");
+                    //Modifie la valeur de l'option en vérifiant la saisie de l'utilisateur
                     Program.SetNombreLigne = GestionValeurEntreUtilisateur();
+                    //Modifie la phrase du sous-menu pour actualiser la valeur de l'option affichée
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNombreLigne + " )";
                     break;
 
                 case 4:
                     Console.WriteLine("Vous modifier le nombre de colonne du terrain");
+                    //Modifie la valeur de l'option en vérifiant la saisie de l'utilisateur
                     Program.SetNombreColonne = GestionValeurEntreUtilisateur();
+                    //Modifie la phrase du sous-menu pour actualiser la valeur de l'option affichée
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de colonne du terrain (actuel : " + Program.GetNombreColonne + " )";
                     break;
             }
@@ -216,18 +233,18 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Vérifie la saisie de l'utilisateur
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Retourne la valeur saisie</returns>
         private int GestionValeurEntreUtilisateur()
         {
             int NombreEntre;
-
             bool NombreEntreRespecteCondition;
 
             do
             {
                 Console.WriteLine("Entrez la nouvelle valeur : ");
+                //Vérifie si la saisie est bonne
                 if (!Int32.TryParse(Console.ReadLine(), out NombreEntre))
                 {
                     Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer !");
@@ -244,9 +261,9 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Vérifie la saisie de l'utilisateur
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Retourne la valeur saisie</returns>
         private float GestionValeurEntreUtilisateurVitesse()
         {
             float NombreEntre;
@@ -256,6 +273,7 @@ namespace ProjetJeuDeLaVie
             do
             {
                 Console.WriteLine("Entrez la nouvelle valeur : ");
+                //Vérifie si la saisie est bonne
                 if (!float.TryParse(Console.ReadLine(), out NombreEntre))
                 {
                     Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer en entrant un nombre entre 0,1 et 10 ! " +
@@ -264,6 +282,7 @@ namespace ProjetJeuDeLaVie
                 }
                 else
                 {
+                    //Vérifie si la saisie est bien entre 0,0 et 10,0
                     if (NombreEntre <= 0.0 || NombreEntre > 10.0)
                     {
                         Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer en entrant un nombre entre 0,1 et 10 ! " +
@@ -289,6 +308,7 @@ namespace ProjetJeuDeLaVie
         {
             Console.WriteLine(PhraseExplicatifMenu);
 
+            //Affiche toutes les phrases liées aux sous-menus
             foreach(SousMenu sousmenu in ListeSousMenu)
             {
                 Console.WriteLine(sousmenu.ToString());
@@ -302,7 +322,9 @@ namespace ProjetJeuDeLaVie
 
             return null;
         }
+        #endregion
 
+        #region Accesseur
         public byte GetGroupeMenu
         {
             get { return GroupeMenu; }
@@ -312,5 +334,6 @@ namespace ProjetJeuDeLaVie
         {
             set { Curseur = value; }
         }
+        #endregion
     }
 }
