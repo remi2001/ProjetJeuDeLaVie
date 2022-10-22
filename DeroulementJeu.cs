@@ -182,6 +182,7 @@ namespace ProjetJeuDeLaVie
                 TerrainDuJeu.AffichageTerrain(VitesseJeu);
                 //Affiche le nombre de génération ainsi que la vitesse du jeu en dessous de chaque génération
                 Console.WriteLine("Nombre de génération : " + (k+1));
+                Console.WriteLine("Pour augmenter la vitesse de jeu, appuyez sur la flèche du haut. Pour la diminuer, appuyez sur celle du bas !");
                 Console.WriteLine("Vitesse du jeu : " + VitesseJeu);
             }
         }
@@ -232,6 +233,7 @@ namespace ProjetJeuDeLaVie
                 TerrainDuJeu.AffichageTerrain(VitesseJeu);
                 //Affiche le nombre de génération ainsi que la vitesse du jeu en dessous de chaque génération
                 Console.WriteLine("Nombre de génération : " + (k + 1));
+                Console.WriteLine("Pour augmenter la vitesse de jeu, appuyez sur la flèche du haut. Pour la diminuer, appuyez sur celle du bas !");
                 Console.WriteLine("Vitesse du jeu : " + VitesseJeu);
             }
         }
