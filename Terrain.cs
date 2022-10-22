@@ -82,7 +82,7 @@ namespace ProjetJeuDeLaVie
 
             do
             {
-                int Ligne = 0;
+                int Ligne = 1;
                 Char Reponse=' ', ReponseFinale=' ';
                 bool MauvaiseSaisie = true, MauvaiseSaisieLigne = true, MauvaiseSaisieColonne = true, MauvaiseSaisieFinale = true;
 
@@ -122,34 +122,37 @@ namespace ProjetJeuDeLaVie
                 if (Reponse == 'O')
                 {
                     //Saisie de la ligne de la cellule a modif
-                    Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(0) - 1));
+                    Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
                     do
                     {
                         if (!Int32.TryParse(Console.ReadLine(), out LigneCelluleChoisi))
-                            Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(0) - 1));
+                            Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
                         else
                         {
-                            if (LigneCelluleChoisi < terrain.GetLength(0) && LigneCelluleChoisi >= 0)
+                            if (LigneCelluleChoisi <= terrain.GetLength(0) && LigneCelluleChoisi > 0)
                                 MauvaiseSaisieLigne = false;
                             else
-                                Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(0) - 1));
+                                Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
                         }
                     } while (MauvaiseSaisieLigne == true);
 
-                    Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(1) - 1));
+                    Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
                     //Saisie de la colonne de la cellule a modif
                     do
                     {
                         if (!Int32.TryParse(Console.ReadLine(), out ColonneCelluleChoisi))
-                            Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(1) - 1));
+                            Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
                         else
                         {
-                            if (ColonneCelluleChoisi < terrain.GetLength(1) && ColonneCelluleChoisi >= 0)
+                            if (ColonneCelluleChoisi <= terrain.GetLength(1) && ColonneCelluleChoisi > 0)
                                 MauvaiseSaisieColonne = false;
                             else
-                                Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 0 et " + (terrain.GetLength(1) - 1));
+                                Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
                         }
                     } while (MauvaiseSaisieColonne == true);
+
+                    ColonneCelluleChoisi--;
+                    LigneCelluleChoisi--;
 
 
                     //Affichage de la ligne avec la potentiale modif symboliser par ? + indication de son etat
