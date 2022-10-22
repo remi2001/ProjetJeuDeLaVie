@@ -8,8 +8,10 @@ namespace ProjetJeuDeLaVie
         private static List<Menu> MenuPouvantEtreENTRER;
         private static Menu FEN_MenuPrincipale;
         private static Menu FEN_MenuOption;
+        private static Menu FEN_MenuLancer;
         private static bool SiLancer;
         private static bool termine;
+        private static byte ModeJeu;
         private static Terrain? TerrainDuJeu;
 
         //Valeur paramètre par défaut
@@ -43,14 +45,19 @@ namespace ProjetJeuDeLaVie
                 //Tant que l'utilisateur n'a pas lancer le jeu
                 do
                 {
-                    SiLancer = MenuPrincipal();
+                    MenuPrincipal();
                 }while (!SiLancer);
 
                 Console.Clear();
                 Console.WriteLine("LANCEMENT");
-                Thread.Sleep(1000);
-                Console.Clear();
 
+                if(ModeJeu == 0)
+                    Console.WriteLine("MODE NORMAL");
+                if(ModeJeu == 1)
+                    Console.WriteLine("DAY AND NIGHT");
+
+                Thread.Sleep(1000);
+                
                 //On crée entièrement le terrain
                 TerrainDuJeu = CreationTerrainJeu();
 
@@ -81,6 +88,9 @@ namespace ProjetJeuDeLaVie
 
             FEN_MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options modifiables");
             MenuPouvantEtreENTRER.Add(FEN_MenuOption);
+
+            FEN_MenuLancer = new Menu(CreationSousMenuLancer(), 3, "Sélectionnez le mode de jeu");
+            MenuPouvantEtreENTRER.Add(FEN_MenuLancer);
 
         }
         
@@ -130,7 +140,25 @@ namespace ProjetJeuDeLaVie
         /// 
         /// </summary>
         /// <returns></returns>
-        public static bool MenuPrincipal()
+        public static List<SousMenu> CreationSousMenuLancer()
+        {
+            SousMenu FEN_ModeNormal = new SousMenu(0, "Mode normal");
+            SousMenu FEN_ModeDayAndNight = new SousMenu(1, "Mode day and night");
+
+            List<SousMenu> ListeSousMenuLancer = new List<SousMenu>(2)
+            {
+                FEN_ModeNormal,
+                FEN_ModeDayAndNight
+            };
+
+            return ListeSousMenuLancer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static void MenuPrincipal()
         {
             byte PositionCurseur;
 
@@ -145,7 +173,24 @@ namespace ProjetJeuDeLaVie
             //On sélectionne le sous menu choisi par l'utilisateur dans le menu principal
             FEN_MenuPrincipale.SelectionSousMenu(PositionCurseur);
 
-            return SiLancer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void LancerJeu()
+        {
+            
+
+            Console.Clear();
+
+            FEN_MenuLancer.ToString();
+
+            //On donne la possiblité de naviguer dans le menu des options
+            ModeJeu = FEN_MenuLancer.Naviguer();
+            SiLancer = true;
+
+            Console.Clear();
         }
 
         /// <summary>
@@ -206,14 +251,12 @@ namespace ProjetJeuDeLaVie
         /// <param name="JeuDeLaVie"></param>
         public static void SelectionJeu(DeroulementJeu JeuDeLaVie)
         {
-            byte ModeDeJeu = 2;
-
-            if(ModeDeJeu == 1)
+            if (ModeJeu == 0)
             {
                 JeuDeLaVie.DeroulementJeuNormal();
             }
 
-            if (ModeDeJeu == 2)
+            if (ModeJeu == 1)
             {
                 JeuDeLaVie.DeroulementJeuDayAndNight();
             }

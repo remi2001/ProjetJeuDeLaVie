@@ -156,7 +156,7 @@ namespace ProjetJeuDeLaVie
                 {
                     case "1.0":
                         //On redonne la main au main() afin d'éxecuter les actions qui lancent le jeu
-                        Program.SetSiLancer = true;
+                        Program.LancerJeu();
                         break;
                     case "1.1":
                         Program.OptionJeu();
@@ -167,6 +167,11 @@ namespace ProjetJeuDeLaVie
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdSousMenu"></param>
         public void ModificationOption(byte IdSousMenu)
         {
             Console.Clear();
@@ -210,6 +215,10 @@ namespace ProjetJeuDeLaVie
             Thread.Sleep(1000);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private int GestionValeurEntreUtilisateur()
         {
             int NombreEntre;
@@ -234,6 +243,10 @@ namespace ProjetJeuDeLaVie
             return NombreEntre;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private float GestionValeurEntreUtilisateurVitesse()
         {
             float NombreEntre;
@@ -268,6 +281,10 @@ namespace ProjetJeuDeLaVie
             return NombreEntre;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string? ToString()
         {
             Console.WriteLine(PhraseExplicatifMenu);
