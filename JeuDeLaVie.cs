@@ -24,8 +24,8 @@ namespace ProjetJeuDeLaVie
         {
             //Par défaut
             Pourcentage = 60;
-            NombreLigne = 100;
-            NombreColonne = 100;
+            NombreLigne = 10;
+            NombreColonne = 10;
             NbGeneration = 30;
             termine = false;
             VitesseJeu = 1;
@@ -206,7 +206,7 @@ namespace ProjetJeuDeLaVie
         /// <param name="JeuDeLaVie"></param>
         public static void SelectionJeu(DeroulementJeu JeuDeLaVie)
         {
-            byte ModeDeJeu = 1;
+            byte ModeDeJeu = 2;
 
             if(ModeDeJeu == 1)
             {

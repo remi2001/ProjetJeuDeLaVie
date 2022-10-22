@@ -132,6 +132,7 @@ namespace ProjetJeuDeLaVie
         {
             //Affichage du terrain de base
             TerrainDuJeu.AffichageTerrain(1);
+            Console.WriteLine("Nombre de génération : 0");
 
             Terrain ProchaineGeneration = new Terrain(0, TerrainDuJeu.UtilisationTerrain.GetLength(0), TerrainDuJeu.UtilisationTerrain.GetLength(1));
             for (int k = 0; k < NbGeneration; k++)
@@ -161,6 +162,7 @@ namespace ProjetJeuDeLaVie
                     TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
                 }
                 TerrainDuJeu.AffichageTerrain(VitesseJeu);
+                Console.WriteLine("Nombre de génération : " + (k+1));
             }
         }
 
@@ -171,6 +173,7 @@ namespace ProjetJeuDeLaVie
         {
             //Affichage du terrain de base
             TerrainDuJeu.AffichageTerrain(1);
+            Console.WriteLine("Nombre de génération : 0");
 
             int nbcellule;
             Terrain ProchaineGeneration = new Terrain(0, TerrainDuJeu.UtilisationTerrain.GetLength(0), TerrainDuJeu.UtilisationTerrain.GetLength(1));
@@ -200,8 +203,9 @@ namespace ProjetJeuDeLaVie
                     {
                         TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
                     }
-                    TerrainDuJeu.AffichageTerrain(VitesseJeu);
                 }
+                TerrainDuJeu.AffichageTerrain(VitesseJeu);
+                Console.WriteLine("Nombre de génération : " + (k + 1));
             }
         }
 
