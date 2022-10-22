@@ -17,6 +17,7 @@ namespace ProjetJeuDeLaVie
         private static int NombreLigne;
         private static int NombreColonne;
         private static int NbGeneration;
+        private static float VitesseJeu;
         #endregion
 
         static void Main(String[] args)
@@ -27,6 +28,7 @@ namespace ProjetJeuDeLaVie
             NombreColonne = 100;
             NbGeneration = 30;
             termine = false;
+            VitesseJeu = 1;
 
             Console.CursorVisible = false;
             Console.Title = "Jeu de la vie";
@@ -53,7 +55,7 @@ namespace ProjetJeuDeLaVie
                 TerrainDuJeu = CreationTerrainJeu();
 
                 //Crée le jeu
-                DeroulementJeu JeuDeLaVie = new DeroulementJeu(Pourcentage, NbGeneration, TerrainDuJeu);
+                DeroulementJeu JeuDeLaVie = new DeroulementJeu(Pourcentage, NbGeneration, TerrainDuJeu, VitesseJeu);
 
                 //L'utilisateur sélectionne le jeu
                 SelectionJeu(JeuDeLaVie);
@@ -77,7 +79,7 @@ namespace ProjetJeuDeLaVie
                 FEN_MenuPrincipale
             };
 
-            FEN_MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options Modifiables");
+            FEN_MenuOption = new Menu(CreationSousMenuOption(), 2, "Voici les options modifiables");
             MenuPouvantEtreENTRER.Add(FEN_MenuOption);
 
         }
@@ -107,7 +109,7 @@ namespace ProjetJeuDeLaVie
         public static List<SousMenu> CreationSousMenuOption()
         {
             SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : " + Pourcentage + " )");
-            SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (pas encore implémenter)");
+            SousMenu FEN_OptionVitesseJeu = new SousMenu(1, "La vitesse du jeu (actuel : " + VitesseJeu + " )");
             SousMenu FEN_OptionGenFinal = new SousMenu(2, "Le choix de la génération final (actuel : " + NbGeneration + " )");
             SousMenu FEN_OptionNombreLigne = new SousMenu(3, "Le nombre de ligne du terrain (actuel : " + NombreLigne + ")");
             SousMenu FEN_OptionNombreColonne = new SousMenu(4, "Le nombre de colonne du terrain (actuel : " + NombreColonne + ")");
@@ -189,7 +191,7 @@ namespace ProjetJeuDeLaVie
         public static Terrain CreationTerrainJeu()
         {
             //Création du terrain
-            Terrain Terrain_du_Jeu = new Terrain(Pourcentage, NombreColonne, NombreLigne);
+            Terrain Terrain_du_Jeu = new Terrain(Pourcentage, NombreLigne, NombreColonne);
             Terrain_du_Jeu.InitialisationTerrain();
             Terrain_du_Jeu.GestionApparitionCellule();
             Terrain_du_Jeu.ModifTerrainParUtilisateur();
@@ -253,10 +255,17 @@ namespace ProjetJeuDeLaVie
         {
             set => NbGeneration = value;
         }
-
         public static bool SetSiLancer
         {
             set => SiLancer = value;
+        }
+        public static float SetVitesseJeu
+        {
+            set => VitesseJeu = value;
+        }
+        public static float GetVitesseJeu
+        {
+            get { return VitesseJeu; }
         }
         #endregion
     }

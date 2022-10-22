@@ -178,21 +178,27 @@ namespace ProjetJeuDeLaVie
                     Console.WriteLine("Vous modifier le pourcentage d'appartition des cellules");
                     Program.SetPourcentage = GestionValeurEntreUtilisateur();
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le pourcentage de cellule vivante (actuel : " + Program.GetPourcentage + " )";
-                    
                     break;
+
                 case 1:
-                    
+                    Console.WriteLine("Vous modifier la vitesse de jeu. Veuilliez entrer un nombre entre 0,1 et 10 ! " +
+                        "Il correspond à la vitesse en seconde.");
+                    Program.SetVitesseJeu = GestionValeurEntreUtilisateurVitesse();
+                    ListeSousMenu[IdSousMenu].SetPhrase = "La vitesse de jeu (actuel : " + Program.GetVitesseJeu + " )";
                     break;
+
                 case 2:
                     Console.WriteLine("Vous modifier le nombre maximum de génération");
                     Program.SetNbGeneration = GestionValeurEntreUtilisateur();
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNbGeneration + " )";
                     break;
+
                 case 3:
                     Console.WriteLine("Vous modifier le nombre de ligne du terrain");
                     Program.SetNombreLigne = GestionValeurEntreUtilisateur();
                     ListeSousMenu[IdSousMenu].SetPhrase = "Le nombre de ligne du terrain (actuel : " + Program.GetNombreLigne + " )";
                     break;
+
                 case 4:
                     Console.WriteLine("Vous modifier le nombre de colonne du terrain");
                     Program.SetNombreColonne = GestionValeurEntreUtilisateur();
@@ -221,6 +227,40 @@ namespace ProjetJeuDeLaVie
                 else
                 {
                     NombreEntreRespecteCondition = true;
+                }
+
+            } while (!NombreEntreRespecteCondition);
+
+            return NombreEntre;
+        }
+
+        private float GestionValeurEntreUtilisateurVitesse()
+        {
+            float NombreEntre;
+
+            bool NombreEntreRespecteCondition;
+
+            do
+            {
+                Console.WriteLine("Entrez la nouvelle valeur : ");
+                if (!float.TryParse(Console.ReadLine(), out NombreEntre))
+                {
+                    Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer en entrant un nombre entre 0,1 et 10 ! " +
+                        "Il correspond à la vitesse en seconde .");
+                    NombreEntreRespecteCondition = false;
+                }
+                else
+                {
+                    if (NombreEntre <= 0.0 || NombreEntre > 10.0)
+                    {
+                        Console.WriteLine("L'entré saisie ne respecte pas les conditions. Veuilliez ré-essayer en entrant un nombre entre 0,1 et 10 ! " +
+                            "Il correspond à la vitesse en seconde.");
+                        NombreEntreRespecteCondition = false;
+                    }
+                    else
+                    {
+                        NombreEntreRespecteCondition = true;
+                    }
                 }
 
             } while (!NombreEntreRespecteCondition);

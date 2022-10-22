@@ -57,10 +57,11 @@ namespace ProjetJeuDeLaVie
             }
         }
 
-        public void AffichageTerrain()
+        public void AffichageTerrain(float VitesseJeu)
         {
-            //Temps d'attente entre 2 affichage de 1 seconde qui equivaut donc a la vitesse du jeu
-            Thread.Sleep(1000);
+            int Delai = Convert.ToInt32(1000 * VitesseJeu);
+            //Temps d'attente entre 2 affichage donc a la vitesse du jeu
+            Thread.Sleep(Delai);
 
             Console.Clear();
             for (int LigneCellule = 0; LigneCellule < terrain.GetLength(0); LigneCellule++)

@@ -11,14 +11,15 @@ namespace ProjetJeuDeLaVie
         //Paramètre du jeu
         private int Pourcentage;
         private int NbGeneration;
-
         private Terrain TerrainDuJeu;
+        private float VitesseJeu;
 
-        public DeroulementJeu(int pourcentage, int nbGeneration, Terrain terrainDuJeu)
+        public DeroulementJeu(int pourcentage, int nbGeneration, Terrain terrainDuJeu, float vitesseJeu)
         {
             Pourcentage = pourcentage;
             NbGeneration = nbGeneration;
             TerrainDuJeu = terrainDuJeu;
+            VitesseJeu = vitesseJeu;
         }
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace ProjetJeuDeLaVie
         public void DeroulementJeuNormal()
         {
             //Affichage du terrain de base
-            TerrainDuJeu.AffichageTerrain();
+            TerrainDuJeu.AffichageTerrain(1);
 
             Terrain ProchaineGeneration = new Terrain(0, TerrainDuJeu.UtilisationTerrain.GetLength(0), TerrainDuJeu.UtilisationTerrain.GetLength(1));
             for (int k = 0; k < NbGeneration; k++)
@@ -159,7 +160,7 @@ namespace ProjetJeuDeLaVie
                 {
                     TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
                 }
-                TerrainDuJeu.AffichageTerrain();
+                TerrainDuJeu.AffichageTerrain(VitesseJeu);
             }
         }
 
@@ -169,7 +170,7 @@ namespace ProjetJeuDeLaVie
         public void DeroulementJeuDayAndNight()
         {
             //Affichage du terrain de base
-            TerrainDuJeu.AffichageTerrain();
+            TerrainDuJeu.AffichageTerrain(1);
 
             int nbcellule;
             Terrain ProchaineGeneration = new Terrain(0, TerrainDuJeu.UtilisationTerrain.GetLength(0), TerrainDuJeu.UtilisationTerrain.GetLength(1));
@@ -199,7 +200,7 @@ namespace ProjetJeuDeLaVie
                     {
                         TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
                     }
-                    TerrainDuJeu.AffichageTerrain();
+                    TerrainDuJeu.AffichageTerrain(VitesseJeu);
                 }
             }
         }
