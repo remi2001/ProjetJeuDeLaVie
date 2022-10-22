@@ -156,7 +156,7 @@ namespace ProjetJeuDeLaVie
                 {
                     case "1.0":
                         //On redonne la main au main() afin d'éxecuter les actions qui lancent le jeu
-                        Program.LancerJeu();
+                        Program.MenuLancer();
                         break;
                     case "1.1":
                         Program.OptionJeu();

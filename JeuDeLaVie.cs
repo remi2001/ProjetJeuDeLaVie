@@ -5,34 +5,75 @@ namespace ProjetJeuDeLaVie
     class Program
     {
         #region Attribut
+        /// <summary>
+        /// Liste comportant tous les menus portant une naviguation
+        /// </summary>
         private static List<Menu> MenuPouvantEtreENTRER;
+        /// <summary>
+        /// Menu principal
+        /// </summary>
         private static Menu FEN_MenuPrincipale;
+        /// <summary>
+        /// Menu des options
+        /// </summary>
         private static Menu FEN_MenuOption;
+        /// <summary>
+        /// Menu du lancement du jeu
+        /// </summary>
         private static Menu FEN_MenuLancer;
+        /// <summary>
+        /// Valeur enregistrant si le jeu peut se lancer
+        /// </summary>
         private static bool SiLancer;
+        /// <summary>
+        /// Valeur enregistrant si le jeu est terminé
+        /// </summary>
         private static bool termine;
+        /// <summary>
+        /// Valeur enregistrant le mode de choisit
+        /// </summary>
         private static byte ModeJeu;
+        /// <summary>
+        /// Le terrain du jeu
+        /// </summary>
         private static Terrain? TerrainDuJeu;
 
-        //Valeur paramètre par défaut
+        //Pramètre du jeu
+        /// <summary>
+        /// Pourcentage d'appartition des cellules dans le terrain
+        /// </summary>
         private static int Pourcentage;
+        /// <summary>
+        /// Le nombre de ligne du terrain
+        /// </summary>
         private static int NombreLigne;
+        /// <summary>
+        /// Le nombre de colonne du terrain
+        /// </summary>
         private static int NombreColonne;
+        /// <summary>
+        /// Le nombre de génération du jeu
+        /// </summary>
         private static int NbGeneration;
+        /// <summary>
+        /// Vitesse du jeu
+        /// </summary>
         private static float VitesseJeu;
         #endregion
 
         static void Main(String[] args)
         {
-            //Par défaut
+            //Initialisation des paramètre par défaut
             Pourcentage = 60;
             NombreLigne = 100;
             NombreColonne = 100;
             NbGeneration = 30;
             termine = false;
             VitesseJeu = 1;
-
+            
+            //On cache le curseur de la console
             Console.CursorVisible = false;
+            //Change le nom de la fenêtre de la console
             Console.Title = "Jeu de la vie";
 
             CreationMenu();
@@ -61,20 +102,18 @@ namespace ProjetJeuDeLaVie
                 //On crée entièrement le terrain
                 TerrainDuJeu = CreationTerrainJeu();
 
-                //Crée le jeu
+                //Création du jeu
                 DeroulementJeu JeuDeLaVie = new DeroulementJeu(Pourcentage, NbGeneration, TerrainDuJeu, VitesseJeu);
 
                 //L'utilisateur sélectionne le jeu
                 SelectionJeu(JeuDeLaVie);
             } while (!termine);
-
-           
         }
 
         #region Fonction
 
         /// <summary>
-        /// 
+        /// Appelle tous les constructeur et les fonctions permettant la création de tous les menus
         /// </summary>
         public static void CreationMenu()
         {
@@ -93,10 +132,11 @@ namespace ProjetJeuDeLaVie
             MenuPouvantEtreENTRER.Add(FEN_MenuLancer);
 
         }
-        
+
         /// <summary>
-        /// 
+        /// Appelle plusieurs constructeurs de sous-menu pour créé le menu principal
         /// </summary>
+        /// <returns>Retourne un tableau comportant tous les sous-menus crée</returns>
         public static List<SousMenu> CreationSousMenuPrincipal()
         {
             SousMenu FEN_Lancer = new SousMenu(0, "Lancer");
@@ -114,8 +154,9 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Appelle plusieurs constructeurs de sous-menu pour créé le menu des options
         /// </summary>
+        /// <returns>Retourne un tableau comportant tous les sous-menus crée</returns>
         public static List<SousMenu> CreationSousMenuOption()
         {
             SousMenu FEN_OptionPourcentage = new SousMenu(0, "Le pourcentage de cellule vivante (actuel : " + Pourcentage + " )");
@@ -137,9 +178,9 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Appelle plusieurs constructeurs de sous-menu pour créé le menu du lancement du jeu
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Retourne un tableau comportant tous les sous-menus crée</returns>
         public static List<SousMenu> CreationSousMenuLancer()
         {
             SousMenu FEN_ModeNormal = new SousMenu(0, "Mode normal");
@@ -155,9 +196,8 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Affiche, rend possible la naviguation et sélectionne le sous-menu correspondant au menu principal
         /// </summary>
-        /// <returns></returns>
         public static void MenuPrincipal()
         {
             byte PositionCurseur;
@@ -176,18 +216,18 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Affiche, rend possible la naviguation et sélectionne le sous-menu correspondant au menu du lancement du jeu
         /// </summary>
-        public static void LancerJeu()
+        public static void MenuLancer()
         {
-            
-
             Console.Clear();
 
             FEN_MenuLancer.ToString();
 
             //On donne la possiblité de naviguer dans le menu des options
             ModeJeu = FEN_MenuLancer.Naviguer();
+
+            //Signale au programme que le jeu peut se lancer
             SiLancer = true;
 
             Console.Clear();
@@ -230,15 +270,18 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Permet de créer le terrain du jeu
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Retourne le terrain du jeu</returns>
         public static Terrain CreationTerrainJeu()
         {
             //Création du terrain
             Terrain Terrain_du_Jeu = new Terrain(Pourcentage, NombreLigne, NombreColonne);
+            //Initalise le terrain
             Terrain_du_Jeu.InitialisationTerrain();
+            //Fait apparaître les cellules selon le pourcentage d'apparition
             Terrain_du_Jeu.GestionApparitionCellule();
+            //Donne la possibiliter de modifier le terrain à l'utilisateur
             Terrain_du_Jeu.ModifTerrainParUtilisateur();
             //----------------------------------------------------------------------------------------//
 
@@ -246,21 +289,24 @@ namespace ProjetJeuDeLaVie
         }
 
         /// <summary>
-        /// 
+        /// Sélectionne le mode de jeu
         /// </summary>
         /// <param name="JeuDeLaVie"></param>
         public static void SelectionJeu(DeroulementJeu JeuDeLaVie)
         {
+            //Mode normal
             if (ModeJeu == 0)
             {
                 JeuDeLaVie.DeroulementJeuNormal();
             }
 
+            //Mode day and night
             if (ModeJeu == 1)
             {
                 JeuDeLaVie.DeroulementJeuDayAndNight();
             }
 
+            //Signale au programme que le jeu est terminé
             termine = true;
         }
         #endregion
