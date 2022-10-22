@@ -149,8 +149,7 @@ namespace ProjetJeuDeLaVie
                         {
                             ProchaineGeneration.UtilisationTerrain[LigneCellule, ColonneCellule] = true;
                         }
-                        //Condition pour la mort d'une cellule
-                        if ((nbcellule <= 1 || nbcellule >= 4 ) && (TerrainDuJeu.UtilisationTerrain[LigneCellule, ColonneCellule] == true))
+                        else//Condition pour la mort d'une cellule
                         {
                             //La valeur deviens false dans le tableau de la prochaine génération
                             ProchaineGeneration.UtilisationTerrain[LigneCellule, ColonneCellule] = false;
@@ -175,34 +174,31 @@ namespace ProjetJeuDeLaVie
             TerrainDuJeu.AffichageTerrain(1);
             Console.WriteLine("Nombre de génération : 0");
 
-            int nbcellule;
             Terrain ProchaineGeneration = new Terrain(0, TerrainDuJeu.UtilisationTerrain.GetLength(0), TerrainDuJeu.UtilisationTerrain.GetLength(1));
             for (int k = 0; k < NbGeneration; k++)
             {
+                ProchaineGeneration.InitialisationTerrain();
+                int nbcellule;
                 for (int LigneCellule = 0; LigneCellule < TerrainDuJeu.UtilisationTerrain.GetLength(0); LigneCellule++)
                 {
-                    ProchaineGeneration.InitialisationTerrain();
                     for (int ColonneCellule = 0; ColonneCellule < TerrainDuJeu.UtilisationTerrain.GetLength(1); ColonneCellule++)
                     {
                         nbcellule = ComptageCelluleAutour(TerrainDuJeu, LigneCellule, ColonneCellule);
-                        //A regarder pour ajouter survie
-                        //Condition pour la naissance d'une cellule
-                        if ((nbcellule == 3 || nbcellule == 4 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8) && (TerrainDuJeu.UtilisationTerrain[LigneCellule, ColonneCellule] == false))
+                        //Naissance et survie d'un cellule
+                        if (nbcellule == 3 || nbcellule == 6 || nbcellule == 7 || nbcellule == 8 || (nbcellule == 4 && TerrainDuJeu.UtilisationTerrain[LigneCellule, ColonneCellule] == true))
                         {
-                            //La valeur deviens true dans le tableau de la prochaine génération
                             ProchaineGeneration.UtilisationTerrain[LigneCellule, ColonneCellule] = true;
                         }
-                        //Condition pour la mort d'une cellule
-                        if ((nbcellule == 0 || nbcellule == 1 || nbcellule == 2 || nbcellule == 4 || nbcellule == 5) && (TerrainDuJeu.UtilisationTerrain[LigneCellule, ColonneCellule] == true))
+                        else//Condition pour la mort d'une cellule
                         {
                             //La valeur deviens false dans le tableau de la prochaine génération
-                            ProchaineGeneration.UtilisationTerrain[LigneCellule, ColonneCellule] = true;
+                            ProchaineGeneration.UtilisationTerrain[LigneCellule, ColonneCellule] = false;
                         }
                     }
-                    if (ProchaineGeneration.UtilisationTerrain != null)
-                    {
-                        TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
-                    }
+                }
+                if (ProchaineGeneration.UtilisationTerrain != null)
+                {
+                    TerrainDuJeu.UtilisationTerrain = (bool[,])ProchaineGeneration.UtilisationTerrain.Clone();
                 }
                 TerrainDuJeu.AffichageTerrain(VitesseJeu);
                 Console.WriteLine("Nombre de génération : " + (k + 1));

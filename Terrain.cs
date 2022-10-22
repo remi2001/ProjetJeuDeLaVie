@@ -171,9 +171,9 @@ namespace ProjetJeuDeLaVie
                     }
                     Console.WriteLine("");
                     if (terrain[LigneCelluleChoisi, ColonneCelluleChoisi] == true)
-                        Console.WriteLine("Cette cellule est actuellement vivante souhaité-vous donc la modifié ?(O/N)");
+                        Console.WriteLine("Cette cellule est actuellement vivante souhaité-vous donc la rendre morte ?(O/N)");
                     else
-                        Console.WriteLine("Cette cellule est actuellement morte souhaité-vous donc la modifié ?(O/N)");
+                        Console.WriteLine("Cette cellule est actuellement morte souhaité-vous donc la rendre vivante ?(O/N)");
 
                     //Demande si l'utilisateur veut faire la modif
                     do
