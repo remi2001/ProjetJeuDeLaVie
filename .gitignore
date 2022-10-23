@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+Documentation/Documentation.shfbproj
+Documentation/Help/Working/GenerateRefInfo-9c034bca-3788-4c91-8fec-a5213831ee36.proj
+Documentation/Help/Working/MRefBuilder.config
+Documentation/Help/Working/manifest.xml
+Documentation/Help/Working/ProjetJeuDeLaVie.xml
+Documentation/Help/Working/reflection.nofilenames
+Documentation/Help/Working/reflection.org
+Documentation/Help/Working/reflection.xml
+Documentation/Help/Working/StopWordList.txt
+ProjetJeuDeLaVie.csproj
+ProjetJeuDeLaVie.csproj
