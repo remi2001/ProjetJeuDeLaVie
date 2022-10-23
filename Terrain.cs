@@ -139,115 +139,159 @@ namespace ProjetJeuDeLaVie
                     Console.WriteLine();
                 }
 
-                //Saisie au choix de la modification ou non du terrain
-                if (PlusieursModif)
-                    Console.WriteLine("Voulez-vous encore modifier le tableau ci-dessus avant le début du jeu ? (O/N)");
-                else
-                    Console.WriteLine("Voulez-vous modifier le tableau ci-dessus avant le début du jeu ? (O/N)");
-                do
-                {
-                    if (!Char.TryParse(Console.ReadLine(), out Reponse))
-                        Console.WriteLine("Veuillez entrer O si vous souhaité modifier une cellule sinon entrer N");
-                    else
-                    {
-                        if (Reponse != 'O' && Reponse != 'N')
-                            Console.WriteLine("Veullez entrer O si vous souhaité modifier une cellule sinon entrer N");
-                        else
-                            MauvaiseSaisie = false;
+                Reponse = ChoixRealiserUneModifSurTerrain(PlusieursModif, MauvaiseSaisie);
 
-                    }
-                }
-                while (MauvaiseSaisie == true);
-
-                //L'utilisateur veut Modifier une cellule ici
+                //L'utilisateur veut Modifier une cellule
                 if (Reponse == 'O')
                 {
-                    //Saisie de la ligne de la cellule a modif
-                    Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
-                    do
-                    {
-                        if (!Int32.TryParse(Console.ReadLine(), out LigneCelluleChoisi))
-                            Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
-                        else
-                        {
-                            if (LigneCelluleChoisi <= terrain.GetLength(0) && LigneCelluleChoisi > 0)
-                                MauvaiseSaisieLigne = false;
-                            else
-                                Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
-                        }
-                    } while (MauvaiseSaisieLigne == true);
-
-                    //Saisie de la colonne de la cellule a modif
-                    Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
-                    do
-                    {
-                        if (!Int32.TryParse(Console.ReadLine(), out ColonneCelluleChoisi))
-                            Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
-                        else
-                        {
-                            if (ColonneCelluleChoisi <= terrain.GetLength(1) && ColonneCelluleChoisi > 0)
-                                MauvaiseSaisieColonne = false;
-                            else
-                                Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
-                        }
-                    } while (MauvaiseSaisieColonne == true);
-
-                    //Recapitulatif de la sélection et informations que la potentiel modification concerne la cellule avec ?
-                    Console.Clear();
-                    Console.WriteLine("Vous avez séléctionné la ligne {0} et la colonne {1} corespondante a la cellule avec ? ci-dessous", LigneCelluleChoisi, ColonneCelluleChoisi);
-
-                    //Ceci permet de remettre les coordonées corespondantes au tableau entre 0 et n et non entre 1 et n+1
-                    ColonneCelluleChoisi--;
-                    LigneCelluleChoisi--;
-
-                    //Affichage de la ligne séléctionné avec ? pour symboliser la potentiel modificatioon
-                    Console.Write("|");
-                    for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
-                    {
-                        if (ColonneCellule == ColonneCelluleChoisi) Console.Write("?|");
-                        else
-                        {
-                            if (terrain[LigneCelluleChoisi, ColonneCellule] == true) Console.Write("X|");
-                            else Console.Write(" |");
-                        }
-                    }
-                    Console.WriteLine("");
-
-                    //Indication de l'etat de la cellule séléctionné avant la modification et demande a l'utilisateur si il confirme cette modification
-                    if (terrain[LigneCelluleChoisi, ColonneCelluleChoisi] == true)
-                        Console.WriteLine("Cette cellule est actuellement vivante souhaité-vous donc la rendre morte ?(O/N)");
-                    else
-                        Console.WriteLine("Cette cellule est actuellement morte souhaité-vous donc la rendre vivante ?(O/N)");
-
-                    do
-                    {
-                        if (!Char.TryParse(Console.ReadLine(), out ReponseFinale))
-                            Console.WriteLine("Veuillez entrer O si vous souhaité modifier cette cellule sinon entrer N");
-                        else
-                        {
-                            if (ReponseFinale != 'O' && ReponseFinale != 'N')
-                                Console.WriteLine("Veullez entrer O si vous souhaité modifier cette cellule sinon entrer N");
-                            else
-                                MauvaiseSaisieFinale = false;
-
-                        }
-                    }
-                    while (MauvaiseSaisieFinale == true);
-
-                    //Si l'utilisateur confirme la cellule a séléctionné alors on change l'état de la cellule
-                    if (ReponseFinale == 'O')
-                    {
-                        if (terrain[LigneCelluleChoisi, ColonneCelluleChoisi] == true)
-                            terrain[LigneCelluleChoisi, ColonneCelluleChoisi] = false;
-                        else
-                            terrain[LigneCelluleChoisi, ColonneCelluleChoisi] = true;
-                        PlusieursModif = true;
-                    }
+                    LigneCelluleChoisi = SaisieLigneCelluleAChoisir(MauvaiseSaisieLigne);
+                    ColonneCelluleChoisi = SaisieColonneCelluleAChoisir(MauvaiseSaisieColonne);
+                    
+                    ConfirmationCelluleAModifier(LigneCelluleChoisi, ColonneCelluleChoisi, ReponseFinale, MauvaiseSaisieFinale, PlusieursModif);
                 }
                 //L'utilisateur ne veut pas modifier
                 else
                     ModifUtilisateur = false;
             } while (ModifUtilisateur == true);
+        }
+
+        //Permet de choisir si l'on veut rélaiser une modificatiion d'une cellule sur le terrain sui sera affiché
+        public Char ChoixRealiserUneModifSurTerrain(bool PlusieursModif, bool MauvaiseSaisie)
+        {
+            Char Reponse;
+
+            if (PlusieursModif)
+                Console.WriteLine("Voulez-vous encore modifier le tableau ci-dessus avant le début du jeu ? (O/N)");
+            else
+                Console.WriteLine("Voulez-vous modifier le tableau ci-dessus avant le début du jeu ? (O/N)");
+            do
+            {
+                if (!Char.TryParse(Console.ReadLine(), out Reponse))
+                    Console.WriteLine("Veuillez entrer O si vous souhaité modifier une cellule sinon entrer N");
+                else
+                {
+                    if (Reponse != 'O' && Reponse != 'N')
+                        Console.WriteLine("Veullez entrer O si vous souhaité modifier une cellule sinon entrer N");
+                    else
+                        MauvaiseSaisie = false;
+
+                }
+            }
+            while (MauvaiseSaisie == true);
+            return Reponse;
+        }
+
+        /// <summary>
+        /// Saisie de la ligne de la cellule a modifier
+        /// </summary>
+        /// <param name="MauvaiseSaisieLigne"></param>
+        /// <returns></returns>
+        public int SaisieLigneCelluleAChoisir(bool MauvaiseSaisieLigne)
+        {
+            int LigneCelluleChoisi;
+            Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
+            do
+            {
+                if (!Int32.TryParse(Console.ReadLine(), out LigneCelluleChoisi))
+                    Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
+                else
+                {
+                    if (LigneCelluleChoisi <= terrain.GetLength(0) && LigneCelluleChoisi > 0)
+                        MauvaiseSaisieLigne = false;
+                    else
+                        Console.WriteLine("Veuillez saisir la ligne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(0)));
+                }
+            } while (MauvaiseSaisieLigne == true);
+
+            return LigneCelluleChoisi;
+            
+        }
+
+        /// <summary>
+        /// Saisie de la colonne de la cellule a modifier
+        /// </summary>
+        /// <param name="MauvaiseSaisieColonne"></param>
+        public int SaisieColonneCelluleAChoisir( bool MauvaiseSaisieColonne)
+        {
+            int ColonneCelluleChoisi;
+            Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
+            do
+            {
+                if (!Int32.TryParse(Console.ReadLine(), out ColonneCelluleChoisi))
+                    Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
+                else
+                {
+                    if (ColonneCelluleChoisi <= terrain.GetLength(1) && ColonneCelluleChoisi > 0)
+                        MauvaiseSaisieColonne = false;
+                    else
+                        Console.WriteLine("Veuillez saisir la colonne de la cellule que vous souhaité modifier entre 1 et " + (terrain.GetLength(1)));
+                }
+            } while (MauvaiseSaisieColonne == true);
+
+            return ColonneCelluleChoisi;
+        }
+
+        /// <summary>
+        /// Confirmation par l'utiliateur de la cellule a modifier choisi par l'utilisateur
+        /// </summary>
+        /// <param name="LigneCelluleChoisi"></param>
+        /// <param name="ColonneCelluleChoisi"></param>
+        /// <param name="ReponseFinale"></param>
+        /// <param name="MauvaiseSaisieFinale"></param>
+        /// <param name="PlusieursModif"></param>
+        public void ConfirmationCelluleAModifier(int LigneCelluleChoisi, int ColonneCelluleChoisi, Char ReponseFinale, bool MauvaiseSaisieFinale, bool PlusieursModif)
+        {
+            //Recapitulatif de la sélection et informations que la potentiel modification concerne la cellule avec ?
+            Console.Clear();
+            Console.WriteLine("Vous avez séléctionné la ligne {0} et la colonne {1} corespondante a la cellule avec ? ci-dessous", LigneCelluleChoisi, ColonneCelluleChoisi);
+
+            //Ceci permet de remettre les coordonées corespondantes au tableau entre 0 et n et non entre 1 et n+1
+            ColonneCelluleChoisi--;
+            LigneCelluleChoisi--;
+
+            //Affichage de la ligne séléctionné avec ? pour symboliser la potentiel modificatioon
+            Console.Write("|");
+            for (int ColonneCellule = 0; ColonneCellule < terrain.GetLength(1); ColonneCellule++)
+            {
+                if (ColonneCellule == ColonneCelluleChoisi) Console.Write("?|");
+                else
+                {
+                    if (terrain[LigneCelluleChoisi, ColonneCellule] == true) Console.Write("X|");
+                    else Console.Write(" |");
+                }
+            }
+            Console.WriteLine("");
+
+            //Indication de l'etat de la cellule séléctionné avant la modification et demande a l'utilisateur si il confirme cette modification
+            if (terrain[LigneCelluleChoisi, ColonneCelluleChoisi] == true)
+                Console.WriteLine("Cette cellule est actuellement vivante souhaité-vous donc la rendre morte ?(O/N)");
+            else
+                Console.WriteLine("Cette cellule est actuellement morte souhaité-vous donc la rendre vivante ?(O/N)");
+
+            do
+            {
+                if (!Char.TryParse(Console.ReadLine(), out ReponseFinale))
+                    Console.WriteLine("Veuillez entrer O si vous souhaité modifier cette cellule sinon entrer N");
+                else
+                {
+                    if (ReponseFinale != 'O' && ReponseFinale != 'N')
+                        Console.WriteLine("Veullez entrer O si vous souhaité modifier cette cellule sinon entrer N");
+                    else
+                        MauvaiseSaisieFinale = false;
+
+                }
+            }
+            while (MauvaiseSaisieFinale == true);
+
+            //Si l'utilisateur confirme la cellule a séléctionné alors on change l'état de la cellule
+            if (ReponseFinale == 'O')
+            {
+                if (terrain[LigneCelluleChoisi, ColonneCelluleChoisi] == true)
+                    terrain[LigneCelluleChoisi, ColonneCelluleChoisi] = false;
+                else
+                    terrain[LigneCelluleChoisi, ColonneCelluleChoisi] = true;
+                PlusieursModif = true;
+            }
         }
 
         #endregion
